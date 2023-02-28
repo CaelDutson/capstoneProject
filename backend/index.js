@@ -24,11 +24,17 @@ app.use(
 
 pool.connect();
 app.post('/register', exports.register = (data, res) => {  
-    console.log(data.body)
-    pool.query(`insert into capstoneProjectUsers (email, username, password) values ('${data.body.email}', '${data.body.username}', '${data.body.password}')`, (err, results) => {  
-        if(err) throw err;
-        console.log(results)
-    })
+    console.log(data.body) 
+    let email =  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (email.test(data.body.email)) {
+        pool.query(`insert into capstoneProjectUsers (email, username, password) values ('${data.body.email}', '${data.body.username}', '${data.body.password}')`, (err, results) => {  
+            if(err) throw err;
+            console.log(results)
+        }) 
+    } 
+    else{ 
+        return console.error('Not valid email');
+    }
 
 }) 
 
