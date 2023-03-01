@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import React, { useState } from "react";
 import './App.css'; 
 import Axios from "axios";
+import Navbar from './NavBar'; 
 
 function App() { 
   const [registerUsername, setRegisterUsername] = useState(""); 
@@ -32,7 +33,10 @@ function App() {
     });
   }
   return (
-    <div className="App">
+    <div className="App"> 
+      <div className='navbar'> 
+        <Navbar />
+      </div>
       <div>
         <h1>Register</h1> 
         <input type="email" placeholder="email" onChange={(e) => setRegisterEmail(e.target.value)}/>

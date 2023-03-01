@@ -1,7 +1,8 @@
 const express = require('express'); 
 const cookieParser = require('cookie-parser'); 
 const session = require('express-session'); 
-const cors = require('cors')
+const cors = require('cors') 
+const fs = require('fs')
 
 //setting up postgres
 const db = require('./db/db.js')
@@ -34,6 +35,11 @@ app.post('/register', exports.register = (data, res) => {
 
 app.get('/getUsers', exports.getUsers = (req, res) => { 
     db.getUsers();
+}) 
+
+app.get('/admin', (response, res)=> { 
+    
+    
 })
 
 app.get('/', (req, res) => { 
