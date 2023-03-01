@@ -1,13 +1,11 @@
 const express = require('express'); 
 const cookieParser = require('cookie-parser'); 
 const session = require('express-session'); 
-const cors = require('cors') 
+const cors = require('cors')
+
 //setting up postgres
-let dbURL = {
-    connectionString: process.env.DATABASE_URL  || 'postgres://postgres:postgres@localhost:5432/postgres'
-}
-const Pool = require('pg').Pool; 
-const pool = new Pool(dbURL);
+const db = require('./db/db.js')
+
 //setting up react client
 const app = express() 
 const port = process.env.PORT || 4000; 
@@ -22,15 +20,11 @@ app.use(
     })
 )  
 
-pool.connect();
 app.post('/register', exports.register = (data, res) => {  
     console.log(data.body) 
     let email =  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (email.test(data.body.email)) {
-        pool.query(`insert into capstoneProjectUsers (email, username, password) values ('${data.body.email}', '${data.body.username}', '${data.body.password}')`, (err, results) => {  
-            if(err) throw err;
-            console.log(results)
-        }) 
+        db.register(data.body)
     } 
     else{ 
         return console.error('Not valid email');
@@ -39,13 +33,7 @@ app.post('/register', exports.register = (data, res) => {
 }) 
 
 app.get('/getUsers', exports.getUsers = (req, res) => { 
-    pool.query('SELECT * from capstoneProjectUsers', (err, results) => {
-        if (err) throw err;
-        for (let row of results.rows) {
-            console.log(JSON.stringify(row));
-        }
-        res.status(200).json(results.rows);
-    })
+    db.getUsers();
 })
 
 app.get('/', (req, res) => { 
