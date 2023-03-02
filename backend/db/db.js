@@ -1,7 +1,7 @@
 const Pool = require('pg').Pool;
 
 let dbURL = {
-    connectionString: process.env.DATABASE_URL || 'postgres://postgres:postgress@localhost:5432/myDB'
+    connectionString: process.env.DATABASE_URL || 'postgres://mmmm:9qGgjV51UGLWHntuEHagqS4d4th5AX09@dpg-cg0bq29mbg5ek4gj2qm0-a.oregon-postgres.render.com/dbstudents?ssl=true'
 }
 
 const pool = new Pool(dbURL);
@@ -13,25 +13,34 @@ exports.getUsers = (req, res) => {
         if (err) throw err;
         for (let row of results.rows) {
             console.log(JSON.stringify(row));
-        }
+        } 
+        res.status(200).json(results.rows);
     })
 }
 
 // columns are: username, hash (password), email, 
 // isAdmin, firstName, lastName, and telephone
 // Just test username, hash, and email for the mean time
-exports.register = (info) => {
-    let email =  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (email.test(data.body.email)) {
-        pool.query(`insert into students (email, username, password) values ('${data.body.email}', '${data.body.username}', '${data.body.password}')`, (err, results) => {  
+exports.register = (data) => {
+    let email =  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
+    let phone = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
+    let name = /^[a-zA-Z]+$/;
+    if (email.test(data.body.email) && phone.test(data.body.telephone) && name.test(data.body.firstName) && name.test(data.body.lastName)) {
+        pool.query(`insert into students (email, username, hash, firstname, lastname, telephone, address) values ('${data.body.email}', '${data.body.username}', '${data.body.password}', '${data.body.firstName}', '${data.body.lastName}', '${data.body.telephone}', '${data.body.address}')`, (err, results) => {  
             if(err) throw err;
             console.log(results)
         }) 
     } 
     else{ 
-        return console.error('Not valid email');
+        return console.error('Either email, telephone, first and last name is not valid');
     }
-}
+} 
+
+exports.login = async (username) => { 
+    const results = await pool.query('SELECT * from users where username = $1', [username]) 
+    console.log(results.rows[0]); 
+    return results.rows[0];
+} 
 
 // functions needed in the future are:
 // getUsersFromCourse

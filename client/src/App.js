@@ -7,7 +7,11 @@ import Navbar from './NavBar';
 function App() { 
   const [registerUsername, setRegisterUsername] = useState(""); 
   const [registerPassword, setRegisterPassword] = useState(""); 
-  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerEmail, setRegisterEmail] = useState(""); 
+  const [registerFirstName, setRegisterFirstName] = useState(""); 
+  const [registerLastName, setRegisterLastName] = useState(""); 
+  const [registerTelephone, setRegisterTelephone] = useState(""); 
+  const [registerAddress, setRegisterAdress] = useState("")
   const [userList, setUserList] = useState(null); 
 
   const register = () => {
@@ -16,7 +20,11 @@ function App() {
       data: { 
         email: registerEmail,
         username: registerUsername,
-        password: registerPassword,
+        password: registerPassword, 
+        firstName: registerFirstName, 
+        lastName: registerLastName, 
+        telephone: registerTelephone, 
+        address: registerAddress
       },
       withCredentials: true,
       url: "/register",
@@ -37,11 +45,15 @@ function App() {
       <div className='navbar'> 
         <Navbar />
       </div>
-      <div>
+      <div className='register'>
         <h1>Register</h1> 
-        <input type="email" placeholder="email" onChange={(e) => setRegisterEmail(e.target.value)}/>
-        <input placeholder="username" onChange={(e) => setRegisterUsername(e.target.value)}/>
-        <input placeholder="password" onChange={(e) => setRegisterPassword(e.target.value)}/>
+        <input type="email" placeholder="Email" onChange={(e) => setRegisterEmail(e.target.value)}/>
+        <input placeholder="Username" onChange={(e) => setRegisterUsername(e.target.value)}/>
+        <input placeholder="Password" onChange={(e) => setRegisterPassword(e.target.value)}/> 
+        <input placeholder="First Name" onChange={(e) => setRegisterFirstName(e.target.value)}/> 
+        <input placeholder="Last Name" onChange={(e) => setRegisterLastName(e.target.value)}/> 
+        <input placeholder="Telephone" onChange={(e) => setRegisterTelephone(e.target.value)}/> 
+        <input placeholder="Address" onChange={(e) => setRegisterAdress(e.target.value)}/>
         <button onClick={register}>Submit</button>
       </div> 
       <div>

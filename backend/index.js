@@ -24,20 +24,22 @@ app.use(
 )  
 
 pool.connect();
-app.post('/register', exports.register = (data, res) => {  
-    db.register();
+app.post('/register', db.register, (req, res) => {  
+    res.send('Registered')
 }) 
 
-app.get('/getUsers', exports.getUsers = (req, res) => { 
-    db.getUsers();
-}) 
+app.get('/getUsers', db.getUsers);
 
 app.get('/admin', (req,res)=> { 
     res.sendFile((__dirname+'/admin.html'));
-})
+}) 
+app.post('/login', (data, res)=> { 
+    console.log(data);
+}) 
+
 app.get('/', (req, res) => { 
     res.send('hello')
 })
 app.listen(port, (req, res) => { 
     console.log(`server is up on port ${port}`)
-})
+}) 
