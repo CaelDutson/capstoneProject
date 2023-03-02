@@ -21,12 +21,16 @@ exports.getUsers = (req, res) => {
 // isAdmin, firstName, lastName, and telephone
 // Just test username, hash, and email for the mean time
 exports.register = (info) => {
-    pool.query(`INSERT INTO "students" ("username", "hash", "email") VALUES ($1, $2, $3)`, [info.username, info.password, info.email], (err, results) => {
-        if (err) throw err;
-        for (let row of results.rows) {
-            console.log(JSON.stringify(row));
-        }
-    })
+    let email =  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (email.test(data.body.email)) {
+        pool.query(`insert into students (email, username, password) values ('${data.body.email}', '${data.body.username}', '${data.body.password}')`, (err, results) => {  
+            if(err) throw err;
+            console.log(results)
+        }) 
+    } 
+    else{ 
+        return console.error('Not valid email');
+    }
 }
 
 // functions needed in the future are:
