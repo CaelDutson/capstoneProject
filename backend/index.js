@@ -5,17 +5,16 @@ const cors = require('cors')
 const fs = require('fs')
 //setting up postgres  
 const db = require('./db/db');
-let dbURL = {
-    connectionString: process.env.DATABASE_URL  || 'postgres://postgres:postgres@localhost:5432/postgres'
-}
-const Pool = require('pg').Pool; 
-const pool = new Pool(dbURL);
+// jwt
+const jwtOptions = require('./auth/jsonToken.js')
 //setting up react client
-const app = express() 
+const app = express()  
 const port = process.env.PORT || 4000; 
 const reactClient = 'http://localhost:3000'; 
+
 app.use(express.static('../client/build'));
 app.use(express.json())
+app.use(express.urlencoded({extended: true}))
 app.use( 
     cors({ 
         origin: reactClient, 
@@ -23,23 +22,43 @@ app.use(
     })
 )  
 
-pool.connect();
 app.post('/register', db.register, (req, res) => {  
     res.send('Registered')
 }) 
 
-app.get('/getUsers', db.getUsers);
+app.get('/getUsers', (req, res) => {
+    console.log(req.headers.authorization)
+    let token = req.headers.authorization
 
-app.get('/admin', (req,res)=> { 
-    res.sendFile((__dirname+'/admin.html'));
-}) 
-app.post('/login', (data, res)=> { 
-    console.log(data);
+    let ress = jwtOptions.verifyToken(token)
+
+    console.log(ress)
+
+    if (ress != -1) {
+        db.getUsers(req, res)
+    } else {
+        res.status(401)
+    }
+});
+
+// app.get('/admin/login', (req,res)=> { 
+//     res.sendFile((__dirname+'/admin.html'));
+// }) 
+app.post('/admin/login', async (req, res)=> { 
+    console.log(req.body)
+    const admin_data = await db.getAdmin(req.body);
+
+    if (admin_data) {
+        const token = jwtOptions.generateToken(admin_data);
+        res.status(200).json(token)
+    } else {
+        res.redirect("/")
+    }
 }) 
 
-app.get('/', (req, res) => { 
-    res.send('hello')
-})
+// app.get('/', (req, res) => { 
+//     res.send('hello')
+// })
 app.listen(port, (req, res) => { 
     console.log(`server is up on port ${port}`)
-}) 
+})

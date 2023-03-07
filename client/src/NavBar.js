@@ -1,5 +1,7 @@
+import {Link} from 'react-router-dom'
+
 export default function Navbar() { 
     return ( 
-        <a href='/admin'>Admin</a>
+        <Link to='/admin/login'>Admin</Link>
     )
 }

@@ -36,11 +36,19 @@ exports.register = (data) => {
     }
 } 
 
-exports.login = async (username) => { 
+exports.adminLogin = async (username) => { 
     const results = await pool.query('SELECT * from users where username = $1', [username]) 
     console.log(results.rows[0]); 
     return results.rows[0];
 } 
+
+exports.getAdmin = async (data) => {
+    const results = await pool.query(
+    `SELECT * FROM students WHERE ("username" = $1) AND ("hash" = $2) AND ("isAdmin" = 'true')`, 
+    [data.adminUserName, data.adminPassword]);
+
+    return results.rows[0];
+}
 
 // functions needed in the future are:
 // getUsersFromCourse
