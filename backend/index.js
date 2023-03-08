@@ -6,11 +6,13 @@ const fs = require('fs')
 //setting up postgres  
 const db = require('./db/db');
 // jwt
-const jwtOptions = require('./auth/jsonToken.js')
+const jwtOptions = require('./auth/jsonToken.js');
+const { get } = require('http');
 //setting up react client
 const app = express()  
 const port = process.env.PORT || 4000; 
 const reactClient = 'http://localhost:3000'; 
+const path = require("path")
 
 app.use(express.static('../client/build'));
 app.use(express.json())
@@ -21,6 +23,10 @@ app.use(
         credentials: true
     })
 )  
+
+app.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname, '../client/build/index.html'))
+})
 
 app.post('/register', db.register, (req, res) => {  
     res.send('Registered')
@@ -52,7 +58,7 @@ app.post('/admin/login', async (req, res)=> {
         const token = jwtOptions.generateToken(admin_data);
         res.status(200).json(token)
     } else {
-        res.redirect("/")
+        res.send("bad")
     }
 }) 
 
