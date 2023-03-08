@@ -22,11 +22,7 @@ app.use(
         origin: reactClient, 
         credentials: true
     })
-)  
-
-app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'))
-})
+)
 
 app.post('/register', db.register, (req, res) => {  
     res.send('Registered')
@@ -47,9 +43,6 @@ app.get('/getUsers', (req, res) => {
     }
 });
 
-// app.get('/admin/login', (req,res)=> { 
-//     res.sendFile((__dirname+'/admin.html'));
-// }) 
 app.post('/admin/login', async (req, res)=> { 
     console.log(req.body)
     const admin_data = await db.getAdmin(req.body);
@@ -58,13 +51,14 @@ app.post('/admin/login', async (req, res)=> {
         const token = jwtOptions.generateToken(admin_data);
         res.status(200).json(token)
     } else {
-        res.send("bad")
+        res.status(401).json("Can't authenticate login credentials!")
     }
 }) 
 
-// app.get('/', (req, res) => { 
-//     res.send('hello')
-// })
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build/index.html'))
+})
+
 app.listen(port, (req, res) => { 
     console.log(`server is up on port ${port}`)
 })
