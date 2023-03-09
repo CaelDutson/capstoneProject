@@ -43,7 +43,7 @@ app.get('/getUsers', (req, res) => {
     }
 });
 
-app.post('/admin/login', async (req, res)=> { 
+app.post('/login', async (req, res)=> { 
     console.log(req.body)
     const admin_data = await db.getAdmin(req.body);
 

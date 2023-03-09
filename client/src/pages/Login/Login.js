@@ -1,19 +1,12 @@
 import React, {useState} from "react"
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
+import useHandleInput from "../../hooks/useHandleInput.js";
 
-const Admin = () => {
+const Login = () => {
     const navigate = useNavigate();
-    const [message, setMessage] = useState(null)
-
-    const [input, setInput] = useState({
-        adminUserName: "",
-        adminPassword: "",
-    })
-
-    const handleInput = (e) => {
-        setInput({...input, [e.target.name]: e.target.value})
-    }
+    const [message, setMessage] = useState(null);
+    const [input, handleInput] = useHandleInput();
 
     const Message = () => {
         if (message) {
@@ -27,7 +20,7 @@ const Admin = () => {
         await Axios({
           method: "POST",
           withCredentials: true,
-          url: "/admin/login",
+          url: "/login",
           data: input
         })
         .then((res) => {
@@ -39,11 +32,13 @@ const Admin = () => {
         });
     }; 
 
+    console.log(input)
+
     return (
         <>
             <h1>Welcome! Sign in to Continue</h1> 
             <form onSubmit={(e) => register(e)}> 
-                <input type="text" onChange={(e) => handleInput(e)} name="adminUserName" id="adminUserName"/>
+                <input type="text" onChange={(e) => handleInput(e)} name="adminUserName"/>
                 <input type="password" onChange={(e) => handleInput(e)} name="adminPassword"/> 
                 <input type="submit" value="Submit"/>
             </form>
@@ -52,4 +47,4 @@ const Admin = () => {
     )
 }
 
-export default Admin;
+export default Login;
