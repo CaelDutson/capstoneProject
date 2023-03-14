@@ -1,5 +1,10 @@
 .App {
   text-align: center;
+} 
+
+body, html {
+  padding: 0px;
+  margin: 0px;
 }
 
 .App-logo {
@@ -33,11 +38,21 @@
   margin-top: 10%;
 } 
 
-.navbar{ 
+.navbar{
+  background-color: #1F75FE;
   display: flex;
-  justify-content: space-evenly; 
+  justify-content: space-evenly;
   justify-items: center;
+  padding: 15px 30px;
+}
+.navbar > * {
+  color: white;
+  text-decoration: none;
 } 
+
+.present{ 
+  margin-top: 500px;
+}
 
 .adminContent{ 
   display: flex;
@@ -82,6 +97,18 @@
 .adminStuff{ 
   display: flex; 
   height: 100%; 
+  width: 100%; 
+  justify-content: center;
+}
+
+.adminTitle{ 
+  display: flex; 
+  width: 100%; 
+  justify-content: center;
+} 
+
+.adminSignIn{ 
+  display: flex; 
   width: 100%; 
   justify-content: center;
 }

@@ -24,21 +24,27 @@ const Admin = () => {
           withCredentials: true,
           url: "/admin/login",
           data: input
-        }).then((res) => {console.log(res.data);  
+        }).then((res, err) => { if(err) throw err; 
+            console.log(res.data);  
             sessionStorage.setItem("data", res.data); 
-            setShowResults(res.data)
+            setShowResults(res.data) 
+            
         });
     }; 
 
     return (
         <> 
-            <Navbar />
-            <h1>Welcome! Sign in to Continue</h1> 
+            <Navbar /> 
+            <div className="adminTitle">
+                <h1>Welcome! Sign in to Continue</h1>  
+            </div> 
+            <div className="adminSignIn">
             <form onSubmit={(e) => register(e)}> 
                 <input type="text" onChange={(e) => handleInput(e)} name="adminUserName" id="adminUserName"/>
                 <input type="password" onChange={(e) => handleInput(e)} name="adminPassword"/> 
                 <input type="submit" value="Submit"/>
-            </form> 
+            </form>  
+            </div>
             <div className="adminStuff">
                 { showResults ? <AdminPage /> : null }
             </div>

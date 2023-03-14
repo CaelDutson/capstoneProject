@@ -24,9 +24,15 @@ function Home() {
     <div className="App"> 
         <Navbar />
       <div>
-        <h1>Get All User</h1>
-        <button onClick={getUsers}>Submit</button>
-        {userList ? <h1>User List <ul>{userList.map((item)=><li key={item._id}>{item.email}: {item.username}</li>)}</ul></h1> : null}
+        <h1>Login</h1> 
+        <form > 
+                <input type="text"  name="adminUserName" id="adminUserName"/>
+                <input type="password"  name="adminPassword"/> 
+                <input type="submit" value="Submit"/>
+        </form>  
+      </div> 
+      <div className="present"> 
+        I know such empty we havent finished this please dont make fun of us
       </div>
     </div>
   );
