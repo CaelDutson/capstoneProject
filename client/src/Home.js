@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import './App.css'; 
 import Axios from "axios";
+
 import Navbar from './NavBar'; 
 
 function Home() {
   const [userList, setUserList] = useState(null); 
-  
+
   const getUsers = () => { 
     Axios({ 
       method: "GET",

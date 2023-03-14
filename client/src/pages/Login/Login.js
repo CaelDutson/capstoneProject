@@ -1,18 +1,14 @@
-import React, {useState} from "react"
+import React from "react"
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
+
 import useHandleInput from "../../hooks/useHandleInput.js";
+import useMessage from "../../hooks/useMessage.js";
 
 const Login = () => {
     const navigate = useNavigate();
-    const [message, setMessage] = useState(null);
+    const [message, handleMessage] = useMessage();
     const [input, handleInput] = useHandleInput();
-
-    const Message = () => {
-        if (message) {
-            return <h1>{message}</h1>
-        }
-    }
 
     const register = async (e) => {
         e.preventDefault()
@@ -28,11 +24,9 @@ const Login = () => {
             navigate("/")      
         })
         .catch((err) => {
-            setMessage(err.response.data);
+            handleMessage(err.response.data);
         });
-    }; 
-
-    console.log(input)
+    };
 
     return (
         <>
@@ -42,7 +36,7 @@ const Login = () => {
                 <input type="password" onChange={(e) => handleInput(e)} name="adminPassword"/> 
                 <input type="submit" value="Submit"/>
             </form>
-            <Message/>
+           {message}
         </>
     )
 }
