@@ -1,50 +1,49 @@
-import React, {useState} from "react"
-import { useNavigate } from "react-router-dom";
+import React from "react"
+import { useState } from "react"
 import Axios from "axios";
-import useHandleInput from "../../hooks/useHandleInput.js";
+import Navbar from "../../NavBar"; 
+import AdminPage from "../../AP";
+const Admin = () => {
+    const [input, setInput] = useState({
+        adminUserName: "",
+        adminPassword: "",
+    })
 
-const Login = () => {
-    const navigate = useNavigate();
-    const [message, setMessage] = useState(null);
-    const [input, handleInput] = useHandleInput();
+    const handleInput = (e) => {
+        setInput({...input, [e.target.name]: e.target.value})
+    } 
 
-    const Message = () => {
-        if (message) {
-            return <h1>{message}</h1>
-        }
-    }
+    const [showResults, setShowResults] = useState(false); 
 
-    const register = async (e) => {
+    const register = async (e) => { 
+        setInput({...input, [e.target.name]: e.target.value})
         e.preventDefault()
 
         await Axios({
           method: "POST",
           withCredentials: true,
-          url: "/login",
+          url: "/admin/login",
           data: input
-        })
-        .then((res) => {
-            sessionStorage.setItem("data", res.data);
-            navigate("/")      
-        })
-        .catch((err) => {
-            setMessage(err.response.data);
+        }).then((res) => {console.log(res.data);  
+            sessionStorage.setItem("data", res.data); 
+            setShowResults(res.data)
         });
     }; 
 
-    console.log(input)
-
     return (
-        <>
+        <> 
+            <Navbar />
             <h1>Welcome! Sign in to Continue</h1> 
             <form onSubmit={(e) => register(e)}> 
-                <input type="text" onChange={(e) => handleInput(e)} name="adminUserName"/>
+                <input type="text" onChange={(e) => handleInput(e)} name="adminUserName" id="adminUserName"/>
                 <input type="password" onChange={(e) => handleInput(e)} name="adminPassword"/> 
                 <input type="submit" value="Submit"/>
-            </form>
-            <Message/>
+            </form> 
+            <div className="adminStuff">
+                { showResults ? <AdminPage /> : null }
+            </div>
         </>
     )
 }
 
-export default Login;
+export default Admin;

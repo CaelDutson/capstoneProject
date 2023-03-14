@@ -22,9 +22,7 @@ function Home() {
 
   return (
     <div className="App"> 
-      <div className='navbar'> 
         <Navbar />
-      </div>
       <div>
         <h1>Get All User</h1>
         <button onClick={getUsers}>Submit</button>

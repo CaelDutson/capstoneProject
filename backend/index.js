@@ -51,7 +51,62 @@ app.get('/getUsers', (req, res) => {
     } else {
         res.status(401)
     }
-});
+}); 
+
+app.post('/admin/login', async (req, res)=> { 
+    console.log(req.body)
+    const admin_data = await db.getAdmin(req.body);
+
+    if (admin_data) {
+        const token = jwtOptions.generateToken(admin_data);
+        res.status(200).json(token); 
+        //res.status(200).json(true)
+    } else { 
+        res.status(200).json(false)
+        res.redirect("/");
+    }
+}); 
+
+app.post('/getInfo', async (req, res) => { 
+    console.log(req.headers.authorization)
+    let token = req.headers.authorization
+
+    let ress = jwtOptions.verifyToken(token)
+
+    console.log(ress) 
+
+    if(ress != 1){ 
+        const data = await db.getInfo(req.body);  
+        console.log(data)
+        res.status(200).json(data)
+    } else{ 
+        res.status(401);
+    }
+})  
+
+app.post('/editUsers', async (req, res) => { 
+    console.log(req.headers.authorization)
+    let token = req.headers.authorization
+
+    let ress = jwtOptions.verifyToken(token)
+
+    console.log(ress) 
+
+    if(ress != 1){ 
+        const data = await db.editUsers(req.body);  
+        console.log(data)
+        res.status(200).json(data)
+    } else{ 
+        res.status(401);
+    }
+    
+}) 
+
+app.post('/deleteUser', async (req, res) => { 
+    const data = await db.deleteUser(req.body);  
+    console.log(data)
+    res.status(200).json(data)
+})
 
 // app.post('/login', async (req, res)=> { 
 //     let user = await db.getUser(req.body);

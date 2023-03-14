@@ -1,7 +1,9 @@
 import React from "react";
 import Axios from "axios";
 
-import useHandleInput from "../../hooks/useHandleInput.js";
+import useHandleInput from "../../hooks/useHandleInput.js"; 
+
+import Navbar from "../../NavBar.js";
 
 const Signup = () => {
     const [input, handleInput] = useHandleInput();
@@ -17,8 +19,10 @@ const Signup = () => {
 
     console.log(input)
 
-    return (
-        <div className='register'>
+    return ( 
+      <div> 
+        <Navbar />
+        <div className='register'> 
             <h1>Register</h1> 
             <input type="email" placeholder="Email" name="email" onChange={(e) => handleInput(e)}/>
             <input placeholder="Username" name="username" onChange={(e) => handleInput(e)}/>
@@ -28,7 +32,8 @@ const Signup = () => {
             <input placeholder="Telephone" name="telephone" onChange={(e) => handleInput(e)}/> 
             <input placeholder="Address" name="address"onChange={(e) => handleInput(e)}/>
             <button onClick={register}>Submit</button>
-        </div> 
+        </div>  
+      </div>
     )
 }
 
