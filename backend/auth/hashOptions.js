@@ -1,10 +1,14 @@
-let bcrypt = require('bcryptjs')
+let bcrypt = require('bcrypt')
 
 exports.encrypt = (password) => {
-    bcrypt.hash(password, 10, function(err, hash) {
-        if (err) throw err;
-        console.log(hash)
-    })
+    const token = bcrypt.hash(password, 11)
+
+    return token
 }
 
-// exports.decrypt =
+exports.comparePassword = (plaintextPassword, hash) => {
+    bcrypt.compare(plaintextPassword, hash, (err, res) => {
+        if (err) throw err;
+        return res
+    })
+}

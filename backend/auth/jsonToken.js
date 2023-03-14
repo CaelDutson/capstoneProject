@@ -1,9 +1,13 @@
 const jwt = require("jsonwebtoken")
-const privateKey = "chainsaw"
+require('dotenv').config()
 
 exports.generateToken = (user) => {
     try {
-        let token = jwt.sign({ user: user }, privateKey);
+        console.log(user)
+        let token = jwt.sign(
+            { user: user }, 
+            process.env.SECRET
+        );
 
         return token
     } catch (err) {
@@ -15,7 +19,7 @@ exports.verifyToken = (token) => {
     try {
         const result = jwt.verify(
             token.substring(7),
-            privateKey
+            process.env.SECRET
         )
 
         return result

@@ -1,4 +1,6 @@
-const express = require('express'); 
+const express = require('express');
+const passport = require('passport') 
+const initialize = require('./auth/passport-config.js')
 const cookieParser = require('cookie-parser'); 
 const session = require('express-session'); 
 const cors = require('cors')  
@@ -7,12 +9,16 @@ const fs = require('fs')
 const db = require('./db/db');
 // jwt
 const jwtOptions = require('./auth/jsonToken.js');
-const { get } = require('http');
 //setting up react client
 const app = express()  
 const port = process.env.PORT || 4000; 
 const reactClient = 'http://localhost:3000'; 
-const path = require("path")
+const path = require("path");
+
+initialize(
+    passport,
+    db.getUser
+)
 
 app.use(express.static('../client/build'));
 app.use(express.json())
@@ -23,10 +29,14 @@ app.use(
         credentials: true
     })
 )
+app.use(session({
+    secret: '2',
+    resave: false,
+    saveUnintialize: false
+}))
+app.use(passport.session())
 
-app.post('/register', db.register, (req, res) => {  
-    res.send('Registered')
-}) 
+app.post('/register', db.register) 
 
 app.get('/getUsers', (req, res) => {
     console.log(req.headers.authorization)
@@ -43,17 +53,22 @@ app.get('/getUsers', (req, res) => {
     }
 });
 
-app.post('/login', async (req, res)=> { 
-    console.log(req.body)
-    const admin_data = await db.getAdmin(req.body);
+// app.post('/login', async (req, res)=> { 
+//     let user = await db.getUser(req.body);
 
-    if (admin_data) {
-        const token = jwtOptions.generateToken(admin_data);
-        res.status(200).json(token)
-    } else {
-        res.status(401).json("Can't authenticate login credentials!")
-    }
-}) 
+//     if (user === undefined) {
+//         res.status(401).json("Can't authenticate login credentials!")
+//     } else {
+//         const token = jwtOptions.generateToken(user);
+//         res.status(200).json(token)
+//     }
+// }) 
+
+app.post('/login/password',
+  passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
+  function(req, res) {
+    res.redirect('/');
+});
 
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'))

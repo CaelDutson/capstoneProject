@@ -1,4 +1,5 @@
 const Pool = require('pg').Pool;
+const hashOptions = require('../auth/hashOptions.js')
 
 let dbURL = {
     connectionString: process.env.DATABASE_URL || 'postgres://mmmm:9qGgjV51UGLWHntuEHagqS4d4th5AX09@dpg-cg0bq29mbg5ek4gj2qm0-a.oregon-postgres.render.com/dbstudents?ssl=true'
@@ -21,18 +22,22 @@ exports.getUsers = (req, res) => {
 // columns are: username, hash (password), email, 
 // isAdmin, firstName, lastName, and telephone
 // Just test username, hash, and email for the mean time
-exports.register = (data) => {
+exports.register = async (req, res) => {
     let email =  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
     let phone = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
     let name = /^[a-zA-Z]+$/;
-    if (email.test(data.body.email) && phone.test(data.body.telephone) && name.test(data.body.firstName) && name.test(data.body.lastName)) {
-        pool.query(`insert into students (email, username, hash, firstname, lastname, telephone, address) values ('${data.body.email}', '${data.body.username}', '${data.body.password}', '${data.body.firstName}', '${data.body.lastName}', '${data.body.telephone}', '${data.body.address}')`, (err, results) => {  
-            if(err) throw err;
-            console.log(results)
-        }) 
-    } 
-    else{ 
-        return console.error('Either email, telephone, first and last name is not valid');
+    console.log(req.body.email)
+    if (email.test(req.body.email) && phone.test(req.body.telephone) && name.test(req.body.firstName) && name.test(req.body.lastName)) {
+        let hash = await hashOptions.encrypt(req.body.password);
+        pool.query(`insert into students (email, username, hash, firstname, lastname, telephone, address) values ('${req.body.email}', '${req.body.username}', '${hash}', '${req.body.firstName}', '${req.body.lastName}', '${req.body.telephone}', '${req.body.address}')`) 
+            .then(_ => {
+                res.status(200)
+            })
+            .catch(err => {
+                res.status(500).json("username or email already in use!")
+            })
+    } else { 
+        res.status(409).json('Either email, telephone, first and last name is not valid');
     }
 } 
 
@@ -42,11 +47,12 @@ exports.adminLogin = async (username) => {
     return results.rows[0];
 } 
 
-exports.getAdmin = async (data) => {
+exports.getUser = async (data) => {
     const results = await pool.query(
-    `SELECT * FROM students WHERE ("username" = $1) AND ("hash" = $2) AND ("isAdmin" = 'true')`, 
-    [data.adminUserName, data.adminPassword]);
-
+        `SELECT * FROM students WHERE ("username" = $1)`, 
+        [data.adminUserName]
+    );
+    
     return results.rows[0];
 }
 
