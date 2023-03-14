@@ -70,6 +70,47 @@ app.post('/login/password',
     res.redirect('/');
 });
 
+app.post('/getInfo', async (req, res) => { 
+    console.log(req.headers.authorization)
+    let token = req.headers.authorization
+
+    let ress = jwtOptions.verifyToken(token)
+
+    console.log(ress) 
+
+    if(ress != 1){ 
+        const data = await db.getInfo(req.body);  
+        console.log(data)
+        res.status(200).json(data)
+    } else{ 
+        res.status(401);
+    }
+}) 
+
+app.post('/editUsers', async (req, res) => { 
+    console.log(req.headers.authorization)
+    let token = req.headers.authorization
+
+    let ress = jwtOptions.verifyToken(token)
+
+    console.log(ress) 
+
+    if(ress != 1){ 
+        const data = await db.editUsers(req.body);  
+        console.log(data)
+        res.status(200).json(data)
+    } else{ 
+        res.status(401);
+    }
+    
+}) 
+
+app.post('/deleteUser', async (req, res) => { 
+    const data = await db.deleteUser(req.body);  
+    console.log(data)
+    res.status(200).json(data)
+})
+
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'))
 })

@@ -31,6 +31,47 @@
   margin: 15px; 
   margin-left: 40%; 
   margin-top: 10%;
+} 
+
+.navbar{ 
+  display: flex;
+  justify-content: space-evenly; 
+  justify-items: center;
+} 
+
+.adminContent{ 
+  display: flex;
+  width: 37.5%; 
+  justify-content: space-evenly; 
+  margin-left: 30%; 
+  margin-top: 10%; 
+  flex-direction: row;
+} 
+
+.searchUser{ 
+  display: flex; 
+  flex-direction: row; 
+} 
+
+.getUsers{ 
+  display: flex; 
+  flex-direction: row; 
+  margin-bottom: 15%;  
+  justify-content: space-evenly;
+} 
+
+.editUsers{ 
+  display: flex; 
+  flex-direction: column; 
+  width: 20%; 
+  margin: 15px; 
+  margin-left: 40%; 
+  margin-top: 10%;
+}
+
+.text{ 
+  display: flex; 
+  width: 100%; 
 }
 
 .App-link {
