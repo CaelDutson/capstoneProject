@@ -2,8 +2,12 @@ import React from "react";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+// Hooks
 import useHandleInput from "../../hooks/useHandleInput.js";
 import useMessage from "../../hooks/useMessage.js";
+
+// Pages
+import AdminPage from "../../AP.js";
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -24,8 +28,6 @@ const Signup = () => {
         handleMessage(err.response.data)
       });
     };
-
-    console.log(input)
 
     return (
         <div className='register'>

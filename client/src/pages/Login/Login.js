@@ -5,6 +5,8 @@ import Axios from "axios";
 import useHandleInput from "../../hooks/useHandleInput.js";
 import useMessage from "../../hooks/useMessage.js";
 
+import AdminPage from "./AP";
+
 const Login = () => {
     const navigate = useNavigate();
     const [message, handleMessage] = useMessage();

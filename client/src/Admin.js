@@ -4,15 +4,6 @@ import Axios from "axios";
 import Navbar from "./NavBar"; 
 import AdminPage from "./AP";
 const Admin = () => {
-    const [input, setInput] = useState({
-        adminUserName: "",
-        adminPassword: "",
-    })
-
-    const handleInput = (e) => {
-        setInput({...input, [e.target.name]: e.target.value})
-    } 
-
     const [showResults, setShowResults] = useState(false); 
 
     const register = async (e) => { 
