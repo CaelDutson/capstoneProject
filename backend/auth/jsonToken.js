@@ -8,7 +8,7 @@ exports.generateToken = (user) => {
             { user: user }, 
             process.env.SECRET
         );
-
+        console.log(token)
         return token
     } catch (err) {
         return -1
@@ -16,16 +16,10 @@ exports.generateToken = (user) => {
 }  
 
 exports.verifyToken = (token) => {
-    try {
-        const result = jwt.verify(
-            token.substring(7),
-            process.env.SECRET
-        )
-
-        return result
-    } catch (err) {
-        return -1
-    }
+    return jwt.verify(
+        token.substring(7),
+        process.env.SECRET
+    )
 }
 
 // needs to be { Authorization: `Bearer ${token}` }

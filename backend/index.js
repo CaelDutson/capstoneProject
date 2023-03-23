@@ -1,12 +1,8 @@
 const express = require('express');
-const passport = require('passport') 
-const initialize = require('./auth/passport-config.js')
-const cookieParser = require('cookie-parser'); 
-const session = require('express-session'); 
 const cors = require('cors')  
-const fs = require('fs')
 //setting up postgres  
 const db = require('./db/db');
+const hashOptions = require('./auth/hashOptions.js')
 // jwt
 const jwtOptions = require('./auth/jsonToken.js');
 //setting up react client
@@ -14,11 +10,6 @@ const app = express()
 const port = process.env.PORT || 4000; 
 const reactClient = 'http://localhost:3000'; 
 const path = require("path");
-
-initialize(
-    passport,
-    db.getUser
-)
 
 app.use(express.static('../client/build'));
 app.use(express.json())
@@ -29,46 +20,90 @@ app.use(
         credentials: true
     })
 )
-app.use(session({
-    secret: '2',
-    resave: false,
-    saveUnintialize: false
-}))
-app.use(passport.session())
 
 app.post('/register', db.register) 
 
-app.get('/getUsers', (req, res) => {
+// Might change it to detect if person is admin later on
+function isLogged(req, res, next) {
+    let token = req.headers.authorization
+
+    try {
+        jwtOptions.verifyToken(token)
+        next()
+    } catch (err) {
+        res.status(401)
+    }
+}
+
+
+// To be used if server side is better than react
+// app.get('/api/auth/login', isLogged, (req, res) => {
+//     res.redirect('/')
+// })
+
+app.get('/getUsers', isLogged, db.getUsers);
+
+
+// only one instance of usage so might merge it with /login route
+async function authenticate(req, res, next) {
+    let user = await db.getUser(req.body);
+
+    if (!user) {
+        res.status(401).json("Can't authenticate email")
+    } else if (!(await hashOptions.comparePassword(req.body.password, user.hash))) {
+        res.status(401).json("Can't authenticate password")
+    } else {
+        req.user = user
+        next()
+    }
+}
+
+app.post('/login', authenticate, async (req, res)=> { 
+        const token = jwtOptions.generateToken(req.user);
+        res.status(200).json(token)
+}) 
+
+// async function isAdmin() {
+//     let token = req.headers.authorization
+//     let ress = jwtOptions.verifyToken(token)
+
+//     if(ress != 1){ 
+//         const data = await db.getInfo(req.body);  
+//         console.log(data)
+//         res.status(200).json(data)
+//     } else{ 
+//         res.status(401);
+//     }
+// }
+
+app.post('/getInfo', isLogged, async (req, res) => { 
+    const data = await db.getInfo(req.body);  
+    res.status(200).json(data)
+}) 
+
+app.post('/editUsers', async (req, res) => { 
     console.log(req.headers.authorization)
     let token = req.headers.authorization
 
     let ress = jwtOptions.verifyToken(token)
 
-    console.log(ress)
+    console.log(ress) 
 
-    if (ress != -1) {
-        db.getUsers(req, res)
-    } else {
-        res.status(401)
+    if(ress != 1){ 
+        const data = await db.editUsers(req.body);  
+        console.log(data)
+        res.status(200).json(data)
+    } else{ 
+        res.status(401);
     }
-});
+    
+}) 
 
-// app.post('/login', async (req, res)=> { 
-//     let user = await db.getUser(req.body);
-
-//     if (user === undefined) {
-//         res.status(401).json("Can't authenticate login credentials!")
-//     } else {
-//         const token = jwtOptions.generateToken(user);
-//         res.status(200).json(token)
-//     }
-// }) 
-
-app.post('/login/password',
-  passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
-  function(req, res) {
-    res.redirect('/');
-});
+app.post('/deleteUser', async (req, res) => { 
+    const data = await db.deleteUser(req.body);  
+    console.log(data)
+    res.status(200).json(data)
+})
 
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'))

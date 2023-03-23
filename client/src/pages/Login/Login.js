@@ -1,18 +1,14 @@
-import React, {useState} from "react"
+import React from "react"
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
+
 import useHandleInput from "../../hooks/useHandleInput.js";
+import useMessage from "../../hooks/useMessage.js";
 
 const Login = () => {
     const navigate = useNavigate();
-    const [message, setMessage] = useState(null);
+    const [message, handleMessage] = useMessage();
     const [input, handleInput] = useHandleInput();
-
-    const Message = () => {
-        if (message) {
-            return <h1>{message}</h1>
-        }
-    }
 
     const register = async (e) => {
         e.preventDefault()
@@ -24,25 +20,27 @@ const Login = () => {
           data: input
         })
         .then((res) => {
+            console.log(res.data)
             sessionStorage.setItem("data", res.data);
-            navigate("/")      
+            navigate('/')
+            // After 2 days of fighting with the navbar
+            // I gave up on react so just reload the page
+            window.location.reload(false);
         })
         .catch((err) => {
-            setMessage(err.response.data);
+            handleMessage(err.response.data);
         });
-    }; 
-
-    console.log(input)
+    };
 
     return (
         <>
             <h1>Welcome! Sign in to Continue</h1> 
             <form onSubmit={(e) => register(e)}> 
-                <input type="text" onChange={(e) => handleInput(e)} name="adminUserName"/>
-                <input type="password" onChange={(e) => handleInput(e)} name="adminPassword"/> 
+                <input type="text" onChange={(e) => handleInput(e)} name="username" placeholder="Username"/>
+                <input type="password" onChange={(e) => handleInput(e)} name="password" placeholder="Password"/> 
                 <input type="submit" value="Submit"/>
             </form>
-            <Message/>
+           {message}
         </>
     )
 }
