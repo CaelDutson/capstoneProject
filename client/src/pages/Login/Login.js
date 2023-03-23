@@ -5,8 +5,6 @@ import Axios from "axios";
 import useHandleInput from "../../hooks/useHandleInput.js";
 import useMessage from "../../hooks/useMessage.js";
 
-import AdminPage from "./AP";
-
 const Login = () => {
     const navigate = useNavigate();
     const [message, handleMessage] = useMessage();
@@ -22,8 +20,12 @@ const Login = () => {
           data: input
         })
         .then((res) => {
+            console.log(res.data)
             sessionStorage.setItem("data", res.data);
-            navigate("/")      
+            navigate('/')
+            // After 2 days of fighting with the navbar
+            // I gave up on react so just reload the page
+            window.location.reload(false);
         })
         .catch((err) => {
             handleMessage(err.response.data);
@@ -34,8 +36,8 @@ const Login = () => {
         <>
             <h1>Welcome! Sign in to Continue</h1> 
             <form onSubmit={(e) => register(e)}> 
-                <input type="text" onChange={(e) => handleInput(e)} name="adminUserName"/>
-                <input type="password" onChange={(e) => handleInput(e)} name="adminPassword"/> 
+                <input type="text" onChange={(e) => handleInput(e)} name="username" placeholder="Username"/>
+                <input type="password" onChange={(e) => handleInput(e)} name="password" placeholder="Password"/> 
                 <input type="submit" value="Submit"/>
             </form>
            {message}

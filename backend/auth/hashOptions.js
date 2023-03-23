@@ -6,9 +6,6 @@ exports.encrypt = (password) => {
     return token
 }
 
-exports.comparePassword = (plaintextPassword, hash) => {
-    bcrypt.compare(plaintextPassword, hash, (err, res) => {
-        if (err) throw err;
-        return res
-    })
+exports.comparePassword = async (plaintextPassword, hash) => {
+    return await bcrypt.compare(plaintextPassword, hash)
 }

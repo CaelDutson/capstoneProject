@@ -101,11 +101,11 @@ const AdminSignedIn = () => {
                 </form>
             </div> 
             <div className="getUsers"> 
-                <form onSubmit={getUsers}> 
+                <div> 
                     <h3>Display all students</h3>
-                    <button>Submit</button> 
-                    {users ? <h1>User List <ul>{users.map((item)=><li key={item._id}>{item.firstname} {item.lastname}:  Username: {item.username} Password: {item.password} ID:{item.id}</li>)}</ul></h1> : null}
-                </form>
+                    <button onClick={getUsers}>Submit</button> 
+                    <div>{users ? <h1>User List <ul>{users.map((item)=><li key={item._id}>{item.firstname} {item.lastname}:  Username: {item.username} Password: {item.password} ID:{item.id}</li>)}</ul></h1> : null}</div>
+                </div>
             </div> 
         </div>
     )

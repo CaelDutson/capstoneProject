@@ -81,9 +81,9 @@ exports.adminLogin = async (username) => {
 exports.getUser = async (data) => {
     const results = await pool.query(
         `SELECT * FROM students WHERE ("username" = $1)`, 
-        [data.adminUserName]
+        [data.username]
     );
-    
+
     return results.rows[0];
 }
 
