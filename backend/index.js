@@ -17,7 +17,7 @@ const path = require("path");
 
 initialize(
     passport,
-    db.getUser
+    db.getUsers
 )
 
 app.use(express.static('../client/build'));
@@ -53,6 +53,12 @@ app.get('/getUsers', (req, res) => {
     }
 }); 
 
+app.post('/classes', async (req, res) => {  
+    console.log(req.body)
+    const data = await db.getClasses(req.body); 
+    console.log(data)
+})
+
 app.post('/admin/login', async (req, res)=> { 
     console.log(req.body)
     const admin_data = await db.getAdmin(req.body);
@@ -63,7 +69,19 @@ app.post('/admin/login', async (req, res)=> {
         //res.status(200).json(true)
     } else { 
         res.status(200).json(false)
-        res.redirect("/");
+    }
+});  
+
+app.post('/login', async (req, res)=> { 
+    console.log(req.body)
+    const data = await db.login(req.body);
+
+    if (data) {
+        const token = jwtOptions.generateToken(data);
+        res.status(200).json(token); 
+        //res.status(200).json(true)
+    } else { 
+        res.status(200).json(false)
     }
 }); 
 
@@ -75,12 +93,13 @@ app.post('/getInfo', async (req, res) => {
 
     console.log(ress) 
 
-    if(ress != 1){ 
+    if(ress != -1){ 
         const data = await db.getInfo(req.body);  
         console.log(data)
         res.status(200).json(data)
     } else{ 
-        res.status(401);
+        console.log("nice try")
+        
     }
 })  
 
@@ -92,7 +111,7 @@ app.post('/editUsers', async (req, res) => {
 
     console.log(ress) 
 
-    if(ress != 1){ 
+    if(ress != -1){ 
         const data = await db.editUsers(req.body);  
         console.log(data)
         res.status(200).json(data)

@@ -16,7 +16,13 @@ exports.getUsers = (req, res) => {
         } 
         res.status(200).json(results.rows);
     })
-} 
+}  
+
+exports.getClasses = async (data) => { 
+    const results = await pool.query('SELECT * FROM students WHERE (username = $1)', (data.username)); 
+    console.log(results);
+    
+}
 
 exports.getInfo = async (username) => { 
     console.log(username)
@@ -67,8 +73,8 @@ exports.register = (data) => {
     }
 } 
 
-exports.adminLogin = async (username) => { 
-    const results = await pool.query('SELECT * from users where username = $1', [username]) 
+exports.login = async (data) => { 
+    const results = await pool.query('SELECT * FROM students WHERE ("username" = $1) AND ("hash" = $2)', [data.username, data.password]) 
     console.log(results.rows[0]); 
     return results.rows[0];
 } 

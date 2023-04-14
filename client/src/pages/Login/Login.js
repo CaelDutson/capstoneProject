@@ -1,8 +1,9 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useState } from "react"
 import Axios from "axios";
 import Navbar from "../../NavBar"; 
 import AdminPage from "../../AP";
+import { json } from "react-router-dom";
 const Admin = () => {
     const [input, setInput] = useState({
         adminUserName: "",
@@ -11,14 +12,31 @@ const Admin = () => {
 
     const handleInput = (e) => {
         setInput({...input, [e.target.name]: e.target.value})
-    } 
+    }  
+    
+    const data = sessionStorage.data;
+    let result = false;
+    console.log(data);
+    if (
+    data == false ||
+    data == "false" ||
+    data == null ||
+    data == "null" ||
+    data == undefined ||
+    data == "undefined"
+    ) {
+    result = false; 
+    } else {
+    result = true;
+    }
+const [showResults, setShowResults] = useState(result);
 
-    const [showResults, setShowResults] = useState(false); 
+    
 
     const register = async (e) => { 
         setInput({...input, [e.target.name]: e.target.value})
         e.preventDefault()
-
+        
         await Axios({
           method: "POST",
           withCredentials: true,
@@ -26,11 +44,13 @@ const Admin = () => {
           data: input
         }).then((res, err) => { if(err) throw err; 
             console.log(res.data);  
-            sessionStorage.setItem("data", res.data); 
-            setShowResults(res.data) 
-            
+            sessionStorage.setItem("data", res.data) 
+            if(res.data == false || NaN){ 
+                setShowResults(false)
+            }
+            setShowResults(res.data)
         });
-    }; 
+    };  
 
     return (
         <> 
@@ -46,7 +66,7 @@ const Admin = () => {
             </form>  
             </div>
             <div className="adminStuff">
-                { showResults ? <AdminPage /> : null }
+                { showResults ? <AdminPage /> : true }
             </div>
         </>
     )
