@@ -1,0 +1,99 @@
+.App {
+  text-align: center;
+}
+
+body, html {
+  padding: 0px;
+  margin: 0px;
+}
+
+content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* content > * {
+
+} */
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+} 
+
+.register { 
+  display: flex; 
+  flex-direction: column; 
+  /* width: 20%; 
+  margin: 15px; 
+  margin-left: 40%; 
+  margin-top: 10%; */
+} 
+
+.navbar{
+  background-color: #1f75fe;
+  display: flex;
+  justify-content: space-evenly; 
+  justify-items: center;
+  padding: 15px 30px;
+} 
+
+.navbar > * {
+  color: white;
+  text-decoration: none;
+}
+
+.adminContent{ 
+  display: flex;
+  width: 37.5%; 
+  justify-content: space-evenly; 
+  margin-left: 30%; 
+  margin-top: 10%; 
+  flex-direction: row;
+} 
+
+.searchUser{ 
+  display: flex; 
+  flex-direction: row; 
+} 
+
+.getUsers{ 
+  display: flex; 
+  flex-direction: row; 
+  margin-bottom: 15%;  
+  justify-content: space-evenly;
+} 
+
+.editUsers{ 
+  display: flex; 
+  flex-direction: column; 
+  width: 20%; 
+  margin: 15px; 
+  margin-left: 40%; 
+  margin-top: 10%;
+}
+
+.text{ 
+  display: flex; 
+  width: 100%; 
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
