@@ -10,7 +10,8 @@ export default function Navbar() {
         document.getElementById("mySidenav").style.width = "0px";
     }  
     const logOut = () => { 
-        sessionStorage.removeItem("data")
+        sessionStorage.removeItem("data") 
+        sessionStorage.removeItem("Name")
     }
     return ( 
         <>  

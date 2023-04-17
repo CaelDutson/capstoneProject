@@ -18,10 +18,11 @@ exports.getUsers = (req, res) => {
     })
 }  
 
-exports.getClasses = async (data) => { 
-    const results = await pool.query('SELECT * FROM students WHERE (username = $1)', (data.username)); 
-    console.log(results);
-    
+exports.getClasses = async (data) => {  
+    console.log(data)
+    const results = await pool.query('SELECT * FROM students WHERE (username = $1)', [(data.username)]); 
+    console.log(results.rows); 
+    return(results.rows);
 }
 
 exports.getInfo = async (username) => { 

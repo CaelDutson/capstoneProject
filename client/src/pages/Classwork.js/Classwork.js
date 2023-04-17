@@ -5,11 +5,9 @@ import Navbar from "../../NavBar";
 
 const Classwork = () => { 
     const [showClasses, setClasses] = useState([]);  
-    const [input, setInput] = useState({username : ''})
+    const [input, setInput] = useState({username : sessionStorage.username})
 
     const Classes = async () => {   
-        setInput(sessionStorage.Name)
-        console.log(input)
         Axios({ 
             method: "POST",
             headers: {
@@ -20,7 +18,7 @@ const Classwork = () => {
             data: input
             }).then((res) => {
             console.log(res.data);
-            setClasses(res.data);
+            setClasses(res.data); 
         });
     } 
 
