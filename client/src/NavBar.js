@@ -11,7 +11,7 @@ export default function Navbar() {
     }  
     const logOut = () => { 
         sessionStorage.removeItem("data") 
-        sessionStorage.removeItem("Name")
+        sessionStorage.removeItem("username")
     }
     return ( 
         <>  
