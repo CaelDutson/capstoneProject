@@ -22,7 +22,7 @@ const Login = () => {
         .then((res) => {
             console.log(res.data)
             sessionStorage.setItem("data", res.data);
-            navigate('/')
+            navigate('/dashboard')
             // After 2 days of fighting with the navbar
             // I gave up on react so just reload the page
             window.location.reload(false);

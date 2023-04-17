@@ -1,6 +1,4 @@
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
-import { useEffect } from 'react'
 
 import IsLogged from './utils/IsLogged.js'
 import Signout from './utils/Signout.js'

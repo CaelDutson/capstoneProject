@@ -9,7 +9,7 @@ const pool = new Pool(dbURL);
 
 pool.connect();
 
-exports.getUsers = (req, res) => {
+exports.getUsers = async (req, res) => {
     pool.query('SELECT * from students', (err, results) => {
         if (err) throw err;
         for (let row of results.rows) {
@@ -85,6 +85,22 @@ exports.getUser = async (data) => {
     );
 
     return results.rows[0];
+}
+
+exports.getCourses = async (req, res) => {
+    const results = await pool.query(`SELECT * from courses`);
+    
+    res.status(200).json(results.rows)
+}
+
+// Student class regestering function 
+exports.register = async (req, res) => {
+    
+}
+
+// Student class unregistering function
+exports.unregister = async(req, res) => {
+
 }
 
 // functions needed in the future are:

@@ -43,6 +43,7 @@ function isLogged(req, res, next) {
 
 app.get('/getUsers', isLogged, db.getUsers);
 
+app.get('/getCourses', db.getCourses);
 
 // only one instance of usage so might merge it with /login route
 async function authenticate(req, res, next) {

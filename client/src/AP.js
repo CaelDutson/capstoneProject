@@ -25,7 +25,9 @@ const AdminSignedIn = () => {
         setEditInput({...editInput, [e.target.name]: e.target.value}); 
     }  
     const search = async (e) => {
+        // console.log(e.target.input.value)
         e.preventDefault()
+
         await Axios({ 
             method: "POST",
             headers: {
@@ -50,6 +52,7 @@ const AdminSignedIn = () => {
     }; 
     const deleteUser = async (e) => {
         e.preventDefault()
+
         await Axios({ 
             method: "POST",
             headers: {
