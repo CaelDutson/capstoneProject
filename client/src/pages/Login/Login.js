@@ -36,7 +36,7 @@ const [showResults, setShowResults] = useState(result);
     const register = async (e) => { 
         setInput({...input, [e.target.name]: e.target.value})
         e.preventDefault()
-        
+
         await Axios({
           method: "POST",
           withCredentials: true,

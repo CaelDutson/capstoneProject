@@ -25,7 +25,7 @@ function Home() {
     }).then((res, err) => { if(err) throw err; 
         console.log(res.data);  
         sessionStorage.setItem("data", res.data)  
-        sessionStorage.setItem("Name", input.username)
+        sessionStorage.setItem("username", input.username)
     });
 };  
 

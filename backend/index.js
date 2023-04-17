@@ -56,7 +56,8 @@ app.get('/getUsers', (req, res) => {
 app.post('/classes', async (req, res) => {  
     console.log(req.body)
     const data = await db.getClasses(req.body); 
-    console.log(data)
+    console.log(data); 
+    res.status(200).json(data)
 })
 
 app.post('/admin/login', async (req, res)=> { 
