@@ -23,25 +23,32 @@ app.use(
 
 app.post('/register', db.register) 
 
-// Might change it to detect if person is admin later on
 function isLogged(req, res, next) {
     let token = req.headers.authorization
 
     try {
-        jwtOptions.verifyToken(token)
+        let verifiedToken = jwtOptions.verifyToken(token)
+        req.headers.user = verifiedToken.user
         next()
     } catch (err) {
         res.status(401)
     }
 }
 
+function isAdmin(req, res, next) {
+    if(req.headers.user.isAdmin){ 
+        next()
+    } else { 
+        res.status(401);
+    }
+}
 
 // To be used if server side is better than react
 // app.get('/api/auth/login', isLogged, (req, res) => {
 //     res.redirect('/')
 // })
 
-app.get('/getUsers', isLogged, db.getUsers);
+app.get('/getUsers', isLogged, isAdmin, db.getUsers);
 
 app.get('/getCourses', db.getCourses);
 
@@ -64,20 +71,9 @@ app.post('/login', authenticate, async (req, res)=> {
         res.status(200).json(token)
 }) 
 
-// async function isAdmin() {
-//     let token = req.headers.authorization
-//     let ress = jwtOptions.verifyToken(token)
 
-//     if(ress != 1){ 
-//         const data = await db.getInfo(req.body);  
-//         console.log(data)
-//         res.status(200).json(data)
-//     } else{ 
-//         res.status(401);
-//     }
-// }
 
-app.post('/getInfo', isLogged, async (req, res) => { 
+app.post('/getInfo', isLogged, isAdmin, async (req, res) => { 
     const data = await db.getInfo(req.body);  
     res.status(200).json(data)
 }) 
