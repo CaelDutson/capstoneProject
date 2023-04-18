@@ -135,6 +135,47 @@ content {
   font-size: 36px;
   margin-left: 50px;
 } 
+.addClass{
+  height: 70%;
+  width: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding-top: 0px; 
+  display: inline-block; 
+  display: flex; 
+}  
+
+.addClass li { 
+  color: #f1f1f1;
+}
+
+.openClass{   
+  padding: 8px 8px 8px 32px;
+  height: 100%;
+  flex-direction: row; 
+  font-size: 30px; 
+  margin-left: 100%; 
+  
+}  
+
+.closeClass{ 
+  
+} 
+
+.saveClass{ 
+  margin-left: 87.5%; 
+  margin-top: 50%; 
+  display: flex;
+}
+
+.addClass .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}  
 
 .classworkContent{ 
   width: 50%; 
@@ -142,12 +183,12 @@ content {
   padding-right: 30%;
   padding-top: 0%;  
   padding-bottom: 20%;
-  height: 70%;
-} 
+  height: 70%; 
+  
+}  
 
-.addClass{ 
-  margin-left: 100%; 
-  margin-top: 70%;
+.classes{ 
+  cursor: pointer;
 }
 
 @media screen and (max-height: 450px) {

@@ -91,8 +91,14 @@ app.post('/editUsers', async (req, res) => {
     } else{ 
         res.status(401);
     }
+<<<<<<< HEAD
 
 }); 
+=======
+});  
+
+app.get('/data', db.getData)
+>>>>>>> 5e8f12a (bruh)
 
 app.post('/classes', async (req, res) => {  
     console.log(req.body)
