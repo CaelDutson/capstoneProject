@@ -51,7 +51,9 @@ app.get('/getUsers', (req, res) => {
     } else {
         res.status(401)
     }
-}); 
+});  
+
+app.get('/data', db.getData)
 
 app.post('/classes', async (req, res) => {  
     console.log(req.body)
