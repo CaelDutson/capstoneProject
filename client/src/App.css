@@ -10,9 +10,7 @@ body, html {
 }
 
 content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  
 }
 
 /* content > * {
@@ -39,18 +37,9 @@ content {
   margin-top: 10%; */
 } 
 
-.navbar{
-  background-color: #1f75fe;
-  display: flex;
-  justify-content: space-evenly; 
-  justify-items: center;
-  padding: 15px 30px;
-} 
 
-.navbar > * {
-  color: white;
-  text-decoration: none;
-}
+
+
 
 .adminContent{ 
   display: flex;
@@ -87,7 +76,7 @@ content {
 
 .navbar {
   height: 100%;
-  width: 0;
+  width: 0%;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -114,18 +103,15 @@ content {
 } 
 
 .UI{ 
-  height: 100%; 
-  width: 6%;
-  display: flex; 
-  position: relative; 
+  padding-right: 100%;
 } 
 
 .openNav{   
   padding: 8px 8px 8px 32px;
   height: 100%;
-  display: flex; 
-  flex-direction: row; 
   font-size: 30px; 
+  display: flex; 
+
 } 
 
 .navbar .closebtn {
@@ -301,28 +287,4 @@ content {
   }
 }
 
-.navbar {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: #111;
-  overflow-x: hidden;
-  transition: 0.3s;
-  padding-top: 0px;
-  display: inline-block;
-}
-.navbar a {
-  padding: 8px 8px 8px 32px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
-  font-size: 30px;
-}
-.navbar a:hover {
-  color: #F1F1F1;
-}
+

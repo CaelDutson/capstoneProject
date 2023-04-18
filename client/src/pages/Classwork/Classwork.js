@@ -47,9 +47,7 @@ const Classwork = () => {
 
     return( 
         <div> 
-            <div className="UI">
-                <Navbar />  
-            </div>
+            <Navbar />
             <div className="classworkContent"> 
                 <h1>Hello </h1> 
                 <div>  

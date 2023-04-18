@@ -4,7 +4,6 @@ import React from 'react';
 import IsLogged from './utils/IsLogged.js'
 
 export default function Navbar() { 
-    
     const [status, setStatus] = IsLogged()
 
     const usage = () => {
@@ -25,7 +24,7 @@ export default function Navbar() {
     }
     
     return ( 
-        <>  
+         
             <div>
                 <div id="mySidenav" className='navbar'> 
                     <a onClick={closeNav}>&#9776;</a>
@@ -40,6 +39,6 @@ export default function Navbar() {
                     <span onClick={openNav}>&#9776;</span> 
                 </div>
             </div>
-        </>
+        
     )
 }
