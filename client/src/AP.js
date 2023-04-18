@@ -25,7 +25,6 @@ const AdminSignedIn = () => {
         setEditInput({...editInput, [e.target.name]: e.target.value}); 
     }  
     const search = async (e) => {
-        // console.log(e.target.input.value)
         e.preventDefault()
 
         await Axios({ 
@@ -88,26 +87,28 @@ const AdminSignedIn = () => {
                 </div> 
             </div> 
             <div className="editUsers">  
-                <div className="text"><h3>*Note: You must search and select a person first. If you leave any blank inputs, the changes will still be applied</h3></div>
-                <form onSubmit={editUsers}>
-                    <input placeholder="First Name" onChange={(e) => handleInput2(e)} type='text' name="firstName"></input> 
-                    <input placeholder="Last Name" onChange={(e) => handleInput2(e)} type='text' name="lastName"></input> 
-                    <input placeholder="Username" onChange={(e) => handleInput2(e)} type='text' name="userName"></input> 
-                    <input placeholder="Password" onChange={(e) => handleInput2(e)} type='text' name="password"></input> 
-                    <input placeholder="Address" onChange={(e) => handleInput2(e)} type='text' name="address"></input> 
-                    <input placeholder="telephone" onChange={(e) => handleInput2(e)} type='text' name="telephone"></input> 
-                    <input placeholder="email" onChange={(e) => handleInput2(e)} type='text' name="email"></input> 
-                    <button>Submit</button> 
-                </form> 
+                <div className="text"><h3>*Note: You must search and select a person first. If you leave any blank inputs, the changes will still be applied</h3></div> 
+                <div className="inputUsers">
+                    <form onSubmit={editUsers}>
+                        <input placeholder="First Name" onChange={(e) => handleInput2(e)} type='text' name="firstName"></input> 
+                        <input placeholder="Last Name" onChange={(e) => handleInput2(e)} type='text' name="lastName"></input> 
+                        <input placeholder="Username" onChange={(e) => handleInput2(e)} type='text' name="userName"></input> 
+                        <input placeholder="Password" onChange={(e) => handleInput2(e)} type='text' name="password"></input> 
+                        <input placeholder="Address" onChange={(e) => handleInput2(e)} type='text' name="address"></input> 
+                        <input placeholder="telephone" onChange={(e) => handleInput2(e)} type='text' name="telephone"></input> 
+                        <input placeholder="email" onChange={(e) => handleInput2(e)} type='text' name="email"></input> 
+                        <button>Submit</button> 
+                    </form>  
+                </div>
                 <form onSubmit={deleteUser}> 
                     <button>DELETE</button>
                 </form>
             </div> 
             <div className="getUsers"> 
-                <div> 
+                <div>
                     <h3>Display all students</h3>
                     <button onClick={getUsers}>Submit</button> 
-                    <div>{users ? <h1>User List <ul>{users.map((item)=><li key={item._id}>{item.firstname} {item.lastname}:  Username: {item.username} Password: {item.password} ID:{item.id}</li>)}</ul></h1> : null}</div>
+                    {users ? <h1>User List <ul>{users.map((item)=><li key={item._id}>{item.firstname} {item.lastname}:  Username: {item.username} ID:{item.id}</li>)}</ul></h1> : null}
                 </div>
             </div> 
         </div>
