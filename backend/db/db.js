@@ -18,6 +18,16 @@ exports.getUsers = async (req, res) => {
     })
 }  
 
+exports.getData = (req, res) => { 
+    pool.query('SELECT * from classes', (err, results) => { 
+        if (err) throw err; 
+        for (let row of results.rows){ 
+            console.log(JSON.stringify(row))
+        } 
+        res.status(200).json(results.rows)
+    })
+}
+
 exports.getClasses = async (data) => {  
     console.log(data)
     const results = await pool.query('SELECT * FROM students WHERE (username = $1)', [(data.username)]); 
