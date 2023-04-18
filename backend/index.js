@@ -11,11 +11,6 @@ const port = process.env.PORT || 4000;
 const reactClient = 'http://localhost:3000'; 
 const path = require("path");
 
-initialize(
-    passport,
-    db.getUsers
-)
-
 app.use(express.static('../client/build'));
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
@@ -186,12 +181,6 @@ app.post('/deleteUser', async (req, res) => {
 //         res.status(200).json(token)
 //     }
 // }) 
-
-app.post('/login/password',
-  passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
-  function(req, res) {
-    res.redirect('/');
-});
 
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'))
