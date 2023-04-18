@@ -5,20 +5,18 @@ import Axios from "axios";
 import useHandleInput from "../../hooks/useHandleInput.js";
 import useMessage from "../../hooks/useMessage.js";
 
-import Navbar from "../../NavBar"; 
-
 const Login = () => {
     const navigate = useNavigate();
     const [message, handleMessage] = useMessage();
     const [input, handleInput] = useHandleInput();
 
-    const register = async (e) => { 
+    const register = async (e) => {
         e.preventDefault()
 
         await Axios({
           method: "POST",
           withCredentials: true,
-          url: "/admin/login",
+          url: "/login",
           data: input
         })
         .then((res) => {
@@ -35,12 +33,8 @@ const Login = () => {
     };
 
     return (
-        <> 
-            <Navbar /> 
-            <div className="adminTitle">
-                <h1>Welcome! Sign in to Continue</h1>  
-            </div> 
-            <div className="adminSignIn">
+        <>
+            <h1>Welcome! Sign in to Continue</h1> 
             <form onSubmit={(e) => register(e)}> 
                 <input type="text" onChange={(e) => handleInput(e)} name="username" placeholder="Username"/>
                 <input type="password" onChange={(e) => handleInput(e)} name="password" placeholder="Password"/> 
@@ -51,4 +45,4 @@ const Login = () => {
     )
 }
 
-export default Admin;
+export default Login;
