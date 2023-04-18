@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import React from 'react';
 
 import IsLogged from './utils/IsLogged.js'
-import Signout from './utils/Signout.js'
 
 export default function Navbar() { 
     
@@ -19,10 +18,6 @@ export default function Navbar() {
     const closeNav = () => {
         document.getElementById("mySidenav").style.width = "0px";
     }  
-    const logOut = () => { 
-        sessionStorage.removeItem("data") 
-        sessionStorage.removeItem("Name")
-    }
     
     return ( 
         <>  

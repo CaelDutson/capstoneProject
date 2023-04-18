@@ -71,8 +71,6 @@ app.post('/login', authenticate, async (req, res)=> {
         res.status(200).json(token)
 }) 
 
-
-
 app.post('/getInfo', isLogged, isAdmin, async (req, res) => { 
     const data = await db.getInfo(req.body);  
     res.status(200).json(data)

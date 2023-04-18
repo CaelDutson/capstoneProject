@@ -126,9 +126,13 @@ exports.getCourses = async (req, res) => {
     res.status(200).json(results.rows)
 }
 
-// Student class regestering function 
-exports.register = async (req, res) => {
-    
+exports.getUser = async (data) => {
+    const results = await pool.query(
+        `SELECT * FROM students WHERE ("username" = $1)`, 
+        [data.username]
+    );
+
+    return results.rows[0];
 }
 
 // Student class unregistering function
