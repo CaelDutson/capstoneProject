@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import './App.css'; 
 import Axios from "axios";
-import Navbar from './NavBar'; 
 
 function Home() { 
   const [input, setInput] = useState({

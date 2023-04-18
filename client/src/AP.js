@@ -26,6 +26,7 @@ const AdminSignedIn = () => {
     }  
     const search = async (e) => {
         e.preventDefault()
+
         await Axios({ 
             method: "POST",
             headers: {
@@ -50,6 +51,7 @@ const AdminSignedIn = () => {
     }; 
     const deleteUser = async (e) => {
         e.preventDefault()
+
         await Axios({ 
             method: "POST",
             headers: {

@@ -1,13 +1,21 @@
 import React from "react";
-import Axios from "axios"; 
-import {Link, Switch, Route} from 'react-router-dom';
 
-import useHandleInput from "../../hooks/useHandleInput.js"; 
+import Axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+// Hooks
+import useHandleInput from "../../hooks/useHandleInput.js";
+import useMessage from "../../hooks/useMessage.js";
+
+// Pages
+import AdminPage from "../../AP.js";
 
 import Navbar from "../../NavBar.js";
 
 const Signup = () => {
+    const navigate = useNavigate();
     const [input, handleInput] = useHandleInput();
+    const [message, handleMessage] = useMessage();
 
     const register = () => {
       Axios({
@@ -15,7 +23,13 @@ const Signup = () => {
         data: input,
         withCredentials: true,
         url: "/register",
-      }).then((res) => console.log(res));
+      })
+      .then((_) => {
+        navigate("/")
+      })
+      .catch((err) => {
+        handleMessage(err.response.data)
+      });
     };
 
     console.log(input)
@@ -34,6 +48,7 @@ const Signup = () => {
               <input placeholder="Telephone" name="telephone" onChange={(e) => handleInput(e)}/> 
               <input placeholder="Address" name="address"onChange={(e) => handleInput(e)}/>
               <button onClick={register}>Submit</button>
+              {message}
           </div>   
         </div>
       </div>

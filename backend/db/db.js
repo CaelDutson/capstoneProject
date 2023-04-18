@@ -8,7 +8,7 @@ const pool = new Pool(dbURL);
 
 pool.connect();
 
-exports.getUsers = (req, res) => {
+exports.getUsers = async (req, res) => {
     pool.query('SELECT * from students', (err, results) => {
         if (err) throw err;
         for (let row of results.rows) {
@@ -23,6 +23,37 @@ exports.getClasses = async (data) => {
     const results = await pool.query('SELECT * FROM students WHERE (username = $1)', [(data.username)]); 
     console.log(results.rows); 
     return(results.rows);
+}
+
+exports.getInfo = async (username) => { 
+    console.log(username)
+    const results = await pool.query(`SELECT * FROM students WHERE firstname LIKE $1`, [`${username.userName}%`]) 
+    console.log(results.rows); 
+    return results.rows;
+} 
+
+exports.editUsers = async (data) => { 
+    console.log(data); 
+    if (data.id == null || data.id == undefined ){ 
+        return 'Nothing was selected'
+    } 
+    else{
+    let email =  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
+    let phone = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
+    let name = /^[a-zA-Z]+$/; 
+    await pool.query(`UPDATE students SET firstname='${data.firstName}', lastname='${data.lastName}', username='${data.userName}', email='${data.email}', address='${data.address}', telephone='${data.telephone}' WHERE id=${data.id}`);   
+    }
+} 
+
+exports.deleteUser = async (data) => { 
+    console.log('its working'); 
+    console.log(data) 
+    if(data.id == null || undefined){
+        return 'Nothing was selected'
+    } 
+    else{ 
+        await pool.query(`DELETE FROM students WHERE id=${data.id}`); 
+    }
 }
 
 exports.getInfo = async (username) => { 
@@ -82,9 +113,27 @@ exports.login = async (data) => {
 
 exports.getAdmin = async (data) => {
     const results = await pool.query(
-    `SELECT * FROM students WHERE ("username" = $1) AND ("hash" = $2) AND ("isAdmin" = 'true')`, 
-    [data.adminUserName, data.adminPassword]);
+        `SELECT * FROM students WHERE ("username" = $1)`, 
+        [data.username]
+    );
+
     return results.rows[0];
+}
+
+exports.getCourses = async (req, res) => {
+    const results = await pool.query(`SELECT * from courses`);
+    
+    res.status(200).json(results.rows)
+}
+
+// Student class regestering function 
+exports.register = async (req, res) => {
+    
+}
+
+// Student class unregistering function
+exports.unregister = async(req, res) => {
+
 }
 
 // functions needed in the future are:

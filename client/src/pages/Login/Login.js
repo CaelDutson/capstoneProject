@@ -1,40 +1,18 @@
-import React, { useEffect } from "react"
-import { useState } from "react"
+import React from "react"
+import { useNavigate } from "react-router-dom";
 import Axios from "axios";
+
+import useHandleInput from "../../hooks/useHandleInput.js";
+import useMessage from "../../hooks/useMessage.js";
+
 import Navbar from "../../NavBar"; 
-import AdminPage from "../../AP";
-import { json } from "react-router-dom";
-const Admin = () => {
-    const [input, setInput] = useState({
-        adminUserName: "",
-        adminPassword: "",
-    })
 
-    const handleInput = (e) => {
-        setInput({...input, [e.target.name]: e.target.value})
-    }  
-    
-    const data = sessionStorage.data;
-    let result = false;
-    console.log(data);
-    if (
-    data == false ||
-    data == "false" ||
-    data == null ||
-    data == "null" ||
-    data == undefined ||
-    data == "undefined"
-    ) {
-    result = false; 
-    } else {
-    result = true;
-    }
-const [showResults, setShowResults] = useState(result);
-
-    
+const Login = () => {
+    const navigate = useNavigate();
+    const [message, handleMessage] = useMessage();
+    const [input, handleInput] = useHandleInput();
 
     const register = async (e) => { 
-        setInput({...input, [e.target.name]: e.target.value})
         e.preventDefault()
 
         await Axios({
@@ -42,15 +20,19 @@ const [showResults, setShowResults] = useState(result);
           withCredentials: true,
           url: "/admin/login",
           data: input
-        }).then((res, err) => { if(err) throw err; 
-            console.log(res.data);  
-            sessionStorage.setItem("data", res.data) 
-            if(res.data == false || NaN){ 
-                setShowResults(false)
-            }
-            setShowResults(res.data)
+        })
+        .then((res) => {
+            console.log(res.data)
+            sessionStorage.setItem("data", res.data);
+            navigate('/dashboard')
+            // After 2 days of fighting with the navbar
+            // I gave up on react so just reload the page
+            window.location.reload(false);
+        })
+        .catch((err) => {
+            handleMessage(err.response.data);
         });
-    };  
+    };
 
     return (
         <> 
@@ -60,14 +42,11 @@ const [showResults, setShowResults] = useState(result);
             </div> 
             <div className="adminSignIn">
             <form onSubmit={(e) => register(e)}> 
-                <input type="text" onChange={(e) => handleInput(e)} name="adminUserName" id="adminUserName"/>
-                <input type="password" onChange={(e) => handleInput(e)} name="adminPassword"/> 
+                <input type="text" onChange={(e) => handleInput(e)} name="username" placeholder="Username"/>
+                <input type="password" onChange={(e) => handleInput(e)} name="password" placeholder="Password"/> 
                 <input type="submit" value="Submit"/>
-            </form>  
-            </div>
-            <div className="adminStuff">
-                { showResults ? <AdminPage /> : true }
-            </div>
+            </form>
+           {message}
         </>
     )
 }
