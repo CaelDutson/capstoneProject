@@ -74,6 +74,22 @@ const AdminSignedIn = () => {
           console.log(res.data);
           setUsers(res.data);
         });
+      } 
+
+      const Collapsible = () => { 
+        var coll = document.getElementsByClassName("collapsible");
+
+        for (let i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight){
+            content.style.maxHeight = null;
+            } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+            } 
+        });
+        }
       }
     return ( 
         <div>  
@@ -108,7 +124,7 @@ const AdminSignedIn = () => {
                 <div>
                     <h3>Display all students</h3>
                     <button onClick={getUsers}>Submit</button> 
-                    {users ? <h1>User List <ul>{users.map((item)=><li key={item._id}>{item.firstname} {item.lastname}:  Username: {item.username} ID:{item.id}</li>)}</ul></h1> : null}
+                    {users ? <h1>User List <ul>{users.map((item)=><li key={item._id}><button className="collapsible" onClick={Collapsible}>{item.firstname} {item.lastname} </button> <div id="collapsibleContent" className="userList">Username: {item.username} ID:{item.id}</div></li>)}</ul></h1> : null}
                 </div>
             </div> 
         </div>
