@@ -27,12 +27,10 @@ export default function Navbar() {
          
             <div>
                 <div id="mySidenav" className='navbar'> 
-                    <a onClick={closeNav}>&#9776;</a>
-                    <Link to="/">Home</Link>
+                    <a className='closeNav' onClick={closeNav}>&#9776;</a>
                     <Link to='/signup'>Signup</Link>
-                    <Link to='/adminLogin'>Admin</Link>
-                    {status ? <Link to="/login" onClick={usage}>Signout</Link> : <Link to='/login'>Login</Link>}
                     <Link to='/classwork'>Classwork</Link> 
+                    {status ? <Link to="/login" onClick={usage}>Signout</Link> : <Link to='/login'>Login</Link>}
                     <button>User tbd</button>
                 </div>  
                 <div className='openNav'>

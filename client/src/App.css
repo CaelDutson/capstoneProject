@@ -85,7 +85,7 @@ content {
   overflow-x: hidden;
   transition: 0.3s;
   padding-top: 0px; 
-  display: inline-block;
+  display: inline-block; 
 }
 
 .navbar a {
@@ -111,8 +111,12 @@ content {
   height: 100%;
   font-size: 30px; 
   display: flex; 
+  cursor: pointer;
+}  
 
-} 
+.closeNav{ 
+  cursor: pointer;
+}
 
 .navbar .closebtn {
   position: absolute;
