@@ -2,7 +2,8 @@ import React from "react";
 import { useState } from "react";
 
 import Courses from "./Courses.js";
-import Users from "./Users.js";
+import Users from "./Users.js"; 
+import Navbar from "../../NavBar.js";
 
 const Dashboard = () => {
     const [page, setPage] = useState();
@@ -19,7 +20,8 @@ const Dashboard = () => {
     console.log('dsfa')
 
     return (
-        <div>
+        <div> 
+            <Navbar />
             <div onClick={() => setPage('courses')}>Courses</div>
             <div onClick={() => setPage('users')}>Users</div>
             <div id="Content">

@@ -4,7 +4,8 @@ import { useState } from "react";
 import Axios from "axios";
 
 import List from "./List";
-import useHandleInput from "../../hooks/useHandleInput.js";
+import useHandleInput from "../../hooks/useHandleInput.js"; 
+import Navbar from "../../NavBar";
 
 
 const Users = () => {
@@ -29,6 +30,7 @@ const Users = () => {
 
     return (
         <div className="adminContent"> 
+            
             <div className="searchUser">  
                 <form onSubmit={(e) => search(e)}> 
                     <input onChange={(e) => handleInput(e)} name="userName"></input> 

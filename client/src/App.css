@@ -150,9 +150,10 @@ content {
 } 
 
 .saveClass{ 
-  margin-left: 87.5%; 
+  margin-left: 70%; 
   margin-top: 50%; 
-  display: flex;
+  display: flex; 
+  
 }
 
 .addClass .closebtn {
