@@ -26,8 +26,7 @@ const Courses = () => {
     }, []);
 
     return (
-        <div>  
-            
+        <div className="courseList">  
             <div>
                 <List list={data} /> 
             </div>

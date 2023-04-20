@@ -31,29 +31,37 @@ content {
 .register { 
   display: flex; 
   flex-direction: column; 
-  /* width: 20%; 
-  margin: 15px; 
-  margin-left: 40%; 
-  margin-top: 10%; */
+  text-align: center; 
+  align-items: center; 
+  justify-content: center; 
+  background-color: #111; 
+  width: 35%; 
+  margin: auto; 
+  margin-top: 5%; 
+  border-radius: 10px;
+}  
+
+.register h2{ 
+  color: #f1f1f1;
 } 
 
+.register h1{ 
+  color: #f1f1f1;
+}
 
-
-
-
-.adminContent{ 
-  display: flex;
-  width: 37.5%; 
-  justify-content: space-evenly; 
-  margin-left: 30%; 
-  margin-top: 10%; 
-  flex-direction: row;
-} 
-
-.searchUser{ 
+.contentRegister{ 
   display: flex; 
-  flex-direction: row; 
+  flex-direction: column; 
+  justify-content: center; 
+  width: 13%; 
+  align-items: center; 
+  justify-content: center; 
+  margin: 10px;
 } 
+
+.contentRegister input{ 
+  margin: 10px;
+}
 
 .getUsers{ 
   display: flex; 
@@ -68,11 +76,6 @@ content {
   width: 20%; 
   margin-left: 40%; 
 }   
-
-.registerContent{ 
-  width: 85%; 
-  margin-left: 15%;
-}
 
 .navbar {
   height: 100%;
@@ -197,87 +200,32 @@ content {
   justify-content: space-evenly; 
   margin-left: 15%; 
   margin-top: 10%; 
-  flex-direction: row;
+  flex-direction: column;
 }  
 
 .editUsers{ 
   display: flex; 
+  flex-direction: column;
   width: 85%; 
   margin-left: 15%; 
   justify-content: center;
 }  
 
-.text{ 
-  display: flex; 
-  width: 85%; 
-  margin-left: 15%; 
-  justify-content: center;
-} 
-
-.inputUsers{ 
-  display: flex; 
-  width: 85%; 
-  margin-left: 15%; 
-  justify-content: center;
-  width: 85%; 
-  margin-left: 15%; 
-  justify-content: center;
-}
-
-
-.text{ 
-  display: flex; 
-  width: 100%; 
-}
-
-.searchUser{ 
-  display: flex; 
-  flex-direction: row; 
-} 
-
-.getUsers{ 
-  display: flex; 
-  flex-direction: row; 
-  margin-bottom: 15%;  
-  justify-content: space-evenly; 
-  height: 30%; 
-  width: 85%; 
+.classStuff{ 
+  display: flex;  
+  flex-direction: column;
+  margin-top: 5%; 
   margin-left: 15%;
 } 
 
-.text{ 
-  display: flex; 
-  width: 100%; 
+.classStuff li{ 
+  text-decoration: none;
 } 
 
-.inputUsers{ 
-  display: flex; 
-  flex-direction: column; 
-  margin: 2px;
-} 
-
-.adminStuff{ 
-  display: flex; 
-  height: 100%; 
-  width: 100%; 
-  justify-content: center;
-}
-
-.adminTitle{ 
-  display: flex; 
-  width: 100%; 
-  justify-content: center; 
-  display: inline-block;
+.courseList{ 
   text-align: center; 
-  margin: auto;
-} 
-
-.adminSignIn{ 
-  display: flex; 
-  width: 100%;   
-  position: relative; 
-  justify-content: center;
-} 
+  text-decoration: none;
+}
 
 .App-link {
   color: #61dafb;

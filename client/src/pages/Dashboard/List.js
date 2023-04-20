@@ -9,9 +9,8 @@ const List = ({ list }) => (
 )
 
 const ListItems = ({ items }) => (
-    <li>
-        <div>{items.id}</div>
-        <div>{items.username }</div>
+    <li className="courseList">
+        <div><h4>{items.id} {items.username }</h4></div>
         <div>{items.description}</div>
     </li>
 )

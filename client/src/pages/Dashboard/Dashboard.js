@@ -21,12 +21,15 @@ const Dashboard = () => {
 
     return (
         <div> 
-            <Navbar />
-            <div onClick={() => setPage('courses')}>Courses</div>
-            <div onClick={() => setPage('users')}>Users</div>
+            <Navbar /> 
+            <div className="classStuff">
+                <div onClick={() => setPage('courses')}>Courses</div>
+                <div onClick={() => setPage('users')}>Users</div> 
+            </div>
             <div id="Content">
                 {cur()}
-            </div>
+            </div> 
+            
         </div>
     )
 }

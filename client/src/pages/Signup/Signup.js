@@ -39,16 +39,18 @@ const Signup = () => {
         <Navbar /> 
         <div className="registerContent">
           <div className='register'> 
-              <h1>Register</h1> 
-              <input type="email" placeholder="Email" name="email" onChange={(e) => handleInput(e)}/>
-              <input placeholder="Username" name="username" onChange={(e) => handleInput(e)}/>
-              <input placeholder="Password" name="password" onChange={(e) => handleInput(e)}/> 
-              <input placeholder="First Name" name="firstName" onChange={(e) => handleInput(e)}/> 
-              <input placeholder="Last Name" name="lastName" onChange={(e) => handleInput(e)}/> 
-              <input placeholder="Telephone" name="telephone" onChange={(e) => handleInput(e)}/> 
-              <input placeholder="Address" name="address"onChange={(e) => handleInput(e)}/>
-              <button onClick={register}>Submit</button>
-              {message}
+              <h1>Register</h1>  
+              <div className="contentRegister">
+                <input type="email" placeholder="Email" name="email" onChange={(e) => handleInput(e)}/>
+                <input placeholder="Username" name="username" onChange={(e) => handleInput(e)}/>
+                <input placeholder="Password" name="password" onChange={(e) => handleInput(e)}/> 
+                <input placeholder="First Name" name="firstName" onChange={(e) => handleInput(e)}/> 
+                <input placeholder="Last Name" name="lastName" onChange={(e) => handleInput(e)}/> 
+                <input placeholder="Telephone" name="telephone" onChange={(e) => handleInput(e)}/> 
+                <input placeholder="Address" name="address"onChange={(e) => handleInput(e)}/>
+                <button onClick={register}>Submit</button>
+                {message} 
+              </div>
           </div>   
         </div>
       </div>

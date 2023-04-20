@@ -36,11 +36,13 @@ const Login = () => {
     return (
         <> 
             <Navbar />
-            <h1>Welcome! Sign in to Continue</h1> 
-            <form onSubmit={(e) => register(e)}> 
-                <input type="text" onChange={(e) => handleInput(e)} name="username" placeholder="Username"/>
-                <input type="password" onChange={(e) => handleInput(e)} name="password" placeholder="Password"/> 
-                <input type="submit" value="Submit"/>
+            <form className="register" onSubmit={(e) => register(e)}> 
+                <h2>Sign In</h2> 
+                <div className="contentRegister">
+                    <input type="text" onChange={(e) => handleInput(e)} name="username" placeholder="Username"/>
+                    <input type="password" onChange={(e) => handleInput(e)} name="password" placeholder="Password"/> 
+                    <input type="submit" value="Submit"/> 
+                </div>
             </form>
            {message}
         </>
