@@ -16,8 +16,6 @@ const Dashboard = () => {
         }
     }
 
-    console.log('dsfa')
-
     return (
         <div>
             <div onClick={() => setPage('courses')}>Courses</div>
