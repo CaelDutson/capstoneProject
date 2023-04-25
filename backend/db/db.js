@@ -106,8 +106,10 @@ exports.register = (data) => {
     let name = /^[a-zA-Z]+$/;
     if (email.test(data.body.email) && phone.test(data.body.telephone) && name.test(data.body.firstName) && name.test(data.body.lastName)) {
         pool.query(`insert into students (email, username, hash, firstname, lastname, telephone, address) values ('${data.body.email}', '${data.body.username}', '${data.body.password}', '${data.body.firstName}', '${data.body.lastName}', '${data.body.telephone}', '${data.body.address}')`, (err, results) => {  
-            if(err) throw err;
-            console.log(results)
+            if(err) { 
+                return console.error('Either email, telephone, first and last name is not valid or username and password already exist');
+            }
+            console.log(results);
         }) 
     } 
     else{ 

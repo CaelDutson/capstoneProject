@@ -21,9 +21,16 @@ const AdminSignedIn = () => {
     const handleInput = (e) => {
         setInput({...input, [e.target.name]: e.target.value})
     }  
+    //const handleInput2 = (e) => {
+        //setEditInput(prevState => ({...prevState, [e.target.name]: e.target.value}));  
+        //console.log(editInput);
+    //}   
     const handleInput2 = (e) => {
-        setEditInput({...editInput, [e.target.name]: e.target.value}); 
-    }  
+        const { name, value } = e.target;  
+        setEditInput(prevState => ({...prevState, [name]: value}));
+        console.log(value); 
+        console.log(name);
+      };
     const search = async (e) => {
         e.preventDefault()
 
@@ -38,7 +45,11 @@ const AdminSignedIn = () => {
           }).then((res) => {console.log(res.data); setUserList(res.data)})
     };  
     const editUsers = async (e) => {
-        e.preventDefault()
+        e.preventDefault();   
+        const { name, value } = e.target;  
+        setEditInput(prevState => ({...prevState, [name]: value}));
+        console.log(value); 
+        console.log(name);
         await Axios({ 
             method: "POST",
             headers: {
@@ -49,7 +60,8 @@ const AdminSignedIn = () => {
             data: editInput
           }).then((res) => {console.log(res.data); setEditInput(res.data)})
     }; 
-    const deleteUser = async (e) => {
+    const deleteUser = async (e) => { 
+        setEditInput({...editInput, [e.target.name]: e.target.value});
         e.preventDefault()
 
         await Axios({ 
@@ -74,7 +86,12 @@ const AdminSignedIn = () => {
           console.log(res.data);
           setUsers(res.data);
         });
-      } 
+      }  
+
+      const handleButtonClick = (e) => {
+        Collapsible();
+        handleInput2(e);
+      };
 
       const Collapsible = () => { 
         var coll = document.getElementsByClassName("collapsible");
@@ -124,7 +141,9 @@ const AdminSignedIn = () => {
                 <div>
                     <h3>Display all students</h3>
                     <button onClick={getUsers}>Submit</button> 
-                    {users ? <h1>User List <ul>{users.map((item)=><li key={item._id}><button className="collapsible" onClick={Collapsible}>{item.firstname} {item.lastname} </button> <div id="collapsibleContent" className="userList">Username: {item.username} ID:{item.id}</div></li>)}</ul></h1> : null}
+                    {users ? <ul>{users.map((item)=><li key={item.id}><button className="collapsible" name="id" value={item.id} onClick={(e)=> {handleButtonClick(e)}}>{item.firstname} {item.lastname}</button>  
+                        <div id="collapsibleContent" className="userList">Username: <input id="username" onChange={(e) => handleInput2(e)} type='text' name="userName" value={editInput.userName !== '' ? editInput.userName : item.username}></input> ID:<input value={item.id}></input> Password: <input id="password" onChange={(e) => handleInput2(e)} type='text' name="password" value={editInput.password !== '' ? editInput.password : item.password}></input>Firstname: <input id="firstname" onChange={(e) => handleInput2(e)} type='text' name="firstName" value={editInput.firstName !== '' ? editInput.firstName : item.firstname}></input>Lastname: <input id="lastname" onChange={(e) => handleInput2(e)} type='text' name="lastName" value={editInput.lastName !== '' ? editInput.lastName : item.lastname}></input>Email: <input id="email" onChange={(e) => handleInput2(e)} type='text' name="email" value={editInput.email !== '' ? editInput.email : item.email}></input>Phone Number: <input id="telephone" onChange={(e) => handleInput2(e)} type='text' name="telephone" value={editInput.telephone !== '' ? editInput.telephone : item.telephone}></input>Address: <input id="address" onChange={(e) => handleInput2(e)} type='text' name="address" value={editInput.address !== '' ? editInput.address : item.address}></input><div><button onClick={(e) => editUsers(e)} id={item.id}>Save</button><button id={item.id}>Delete</button></div></div>  
+                        </li>)}</ul> : null}
                 </div>
             </div> 
         </div>
