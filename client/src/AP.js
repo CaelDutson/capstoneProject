@@ -75,8 +75,8 @@ const AdminSignedIn = () => {
         });
       };
     const deleteUser = async (e) => { 
-        setEditInput({...editInput, [e.target.name]: e.target.value});
-        e.preventDefault()
+        e.preventDefault();  
+        const data = {'id': currentUserId}
 
         await Axios({ 
             method: "POST",
@@ -85,7 +85,7 @@ const AdminSignedIn = () => {
             },
             withCredentials: true, 
             url: '/deleteUser', 
-            data: editInput
+            data: data
           }).then((res) => {console.log(res.data); setEditInput(res.data)})
     }; 
     const getUsers = () => { 
@@ -158,7 +158,7 @@ const AdminSignedIn = () => {
                             Email: <input id="email" onChange={(e) => handleInput2(e)} type='text' name="email" value={userInputs[item.id]?.email || item.email}></input> 
                             Phone Number: <input id="telephone" onChange={(e) => handleInput2(e)} type='text' name="telephone" value={userInputs[item.id]?.telephone || item.telephone}></input> 
                             Address: <input id="address" onChange={(e) => handleInput2(e)} type='text' name="address" value={userInputs[item.id]?.address || item.address}></input> 
-                            <div><button onClick={(e) => editUsers(e)} id={item.id}>Save</button><button id={item.id}>Delete</button></div></div>  
+                            <div><button onClick={(e) => editUsers(e)} id={item.id}>Save</button><button onClick={(e) => deleteUser(e)} name="id" id={item.id}>Delete</button></div></div>  
                         </li>)}</ul> : null} 
                     </div>
                 </div>

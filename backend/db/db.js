@@ -57,7 +57,7 @@ exports.editUsers = async (data) => {
 
 exports.deleteUser = async (data) => { 
     console.log('its working'); 
-    console.log(data) 
+    console.log(data);
     if(data.id == null || undefined){
         return 'Nothing was selected'
     } 
