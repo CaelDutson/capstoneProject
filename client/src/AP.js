@@ -144,21 +144,23 @@ const AdminSignedIn = () => {
                 </div> 
             </div>  
             <div className="getUsers"> 
-                <div>
+                <div className="displayUsers">
                     <h3>Display all students</h3>
                     <button onClick={getUsers}>Submit</button> 
-                    {users ? <ul>{users.map((item)=><li key={item.id}><button className="collapsible" name="id" value={item.id} onClick={(e)=> {handleButtonClick(e)}}>{item.firstname} {item.lastname}</button>  
-                        <div id="collapsibleContent" className="userList"> 
-                        Username: <input id="username" onChange={(e) => handleInput2(e)} type='text' name="userName" value={userInputs[item.id]?.userName || item.username}></input>  
-                        ID:<input value={item.id}></input>  
-                        Password: <input id="password" onChange={(e) => handleInput2(e)} type='text' name="password" value={userInputs[item.id]?.password || item.password}></input> 
-                        Firstname: <input id="firstname" onChange={(e) => handleInput2(e)} type='text' name="firstName" value={userInputs[item.id]?.firstName || item.firstname}></input> 
-                        Lastname: <input id="lastname" onChange={(e) => handleInput2(e)} type='text' name="lastName" value={userInputs[item.id]?.lastName || item.lastname}></input> 
-                        Email: <input id="email" onChange={(e) => handleInput2(e)} type='text' name="email" value={userInputs[item.id]?.email || item.email}></input> 
-                        Phone Number: <input id="telephone" onChange={(e) => handleInput2(e)} type='text' name="telephone" value={userInputs[item.id]?.telephone || item.telephone}></input> 
-                        Address: <input id="address" onChange={(e) => handleInput2(e)} type='text' name="address" value={userInputs[item.id]?.address || item.address}></input> 
-                        <div><button onClick={(e) => editUsers(e)} id={item.id}>Save</button><button id={item.id}>Delete</button></div></div>  
-                    </li>)}</ul> : null}
+                    <div className="editUsers">
+                        {users ? <ul>{users.map((item)=><li key={item.id}><button className="collapsible" name="id" value={item.id} onClick={(e)=> {handleButtonClick(e)}}>{item.firstname} {item.lastname}</button>  
+                            <div id="collapsibleContent" className="userList"> 
+                            Username: <input id="username" onChange={(e) => handleInput2(e)} type='text' name="userName" value={userInputs[item.id]?.userName || item.username}></input>  
+                            ID:<input value={item.id}></input>  
+                            Password: <input id="password" onChange={(e) => handleInput2(e)} type='text' name="password" value={userInputs[item.id]?.password || item.password}></input> 
+                            Firstname: <input id="firstname" onChange={(e) => handleInput2(e)} type='text' name="firstName" value={userInputs[item.id]?.firstName || item.firstname}></input> 
+                            Lastname: <input id="lastname" onChange={(e) => handleInput2(e)} type='text' name="lastName" value={userInputs[item.id]?.lastName || item.lastname}></input> 
+                            Email: <input id="email" onChange={(e) => handleInput2(e)} type='text' name="email" value={userInputs[item.id]?.email || item.email}></input> 
+                            Phone Number: <input id="telephone" onChange={(e) => handleInput2(e)} type='text' name="telephone" value={userInputs[item.id]?.telephone || item.telephone}></input> 
+                            Address: <input id="address" onChange={(e) => handleInput2(e)} type='text' name="address" value={userInputs[item.id]?.address || item.address}></input> 
+                            <div><button onClick={(e) => editUsers(e)} id={item.id}>Save</button><button id={item.id}>Delete</button></div></div>  
+                        </li>)}</ul> : null} 
+                    </div>
                 </div>
             </div> 
         </div>
