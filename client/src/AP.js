@@ -1,4 +1,4 @@
-import React from "react" 
+import React, { useEffect } from "react";
 import { useState } from "react"
 import Axios from "axios"; 
 
@@ -115,7 +115,11 @@ const AdminSignedIn = () => {
         setCurrentUserId(userId);
         setUserInputs(prevState => ({...prevState, [userId]: {...prevState[userId], id: userId}}));
         //handleInput2(e);
-      };
+      }; 
+
+      useEffect(() => { 
+        getUsers();
+    }, 5000)
 
       const Collapsible = () => { 
         var coll = document.getElementsByClassName("collapsible");
@@ -145,10 +149,8 @@ const AdminSignedIn = () => {
             </div>  
             <div className="getUsers"> 
                 <div className="displayUsers">
-                    <h3>Display all students</h3>
-                    <button onClick={getUsers}>Submit</button> 
                     <div className="editUsers">
-                        {users ? <ul>{users.map((item)=><li key={item.id}><button className="collapsible" name="id" value={item.id} onClick={(e)=> {handleButtonClick(e)}}>{item.firstname} {item.lastname}</button>  
+                        {users ? <ul className="editUsersList">{users.map((item)=><li key={item.id}><button className="collapsible" name="id" value={item.id} onClick={(e)=> {handleButtonClick(e)}}>{item.firstname} {item.lastname}</button>  
                             <div id="collapsibleContent" className="userList"> 
                             Username: <input id="username" onChange={(e) => handleInput2(e)} type='text' name="userName" value={userInputs[item.id]?.userName || item.username}></input>  
                             ID:<input value={item.id}></input>  

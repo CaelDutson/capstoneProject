@@ -193,7 +193,8 @@ content {
   justify-content: space-evenly; 
   margin-left: 15%; 
   margin-top: 10%; 
-  flex-direction: column;
+  flex-direction: column; 
+  text-decoration: none;
 }  
 
 .editUsers{ 
@@ -201,7 +202,8 @@ content {
   flex-direction: column;
   width: 85%; 
   margin-left: 15%; 
-  justify-content: center;
+  justify-content: center; 
+  text-decoration: none;
 }   
 
 .collapsible {
@@ -216,6 +218,14 @@ content {
   font-size: 15px; 
   border-radius: 10px; 
   transition: 0.2s; 
+  text-decoration: none;
+} 
+
+.collapsible ul{ 
+  text-decoration: none;
+} 
+
+.collapsible li{ 
   text-decoration: none;
 }
 
@@ -262,6 +272,14 @@ content {
   background-color: #f1f1f1; 
   color: #111; 
   transition: 0.2s;
+} 
+
+.userList ul{ 
+  text-decoration: none;
+} 
+
+.userList li{ 
+  text-decoration: none;
 }
 
 .classStuff{ 
@@ -291,7 +309,11 @@ content {
   text-decoration: none; 
   margin: 10px; 
   border-radius: 10px;
-} 
+}  
+
+.editUsersList{ 
+  text-decoration: none;
+}
 
 .App-link {
   color: #61dafb;

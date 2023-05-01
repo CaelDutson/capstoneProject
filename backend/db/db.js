@@ -44,7 +44,7 @@ exports.getInfo = async (username) => {
 
 exports.editUsers = async (data) => { 
     console.log(data); 
-    if (data.id == null || data.id == undefined ){ 
+    if (data.id == null || data.id == undefined || data.password == undefined || data.password == ' '){ 
         return 'Nothing was selected'
     } 
     else{
