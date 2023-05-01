@@ -87,7 +87,16 @@ const AdminSignedIn = () => {
             url: '/deleteUser', 
             data: data
           }).then((res) => {console.log(res.data); setEditInput(res.data)})
-    }; 
+    };  
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+          getUsers();
+        }, 2500);
+    
+        return () => clearInterval(interval);
+      }, []); 
+
     const getUsers = () => { 
         Axios({ 
           method: "GET",
@@ -116,10 +125,6 @@ const AdminSignedIn = () => {
         setUserInputs(prevState => ({...prevState, [userId]: {...prevState[userId], id: userId}}));
         //handleInput2(e);
       }; 
-
-      useEffect(() => { 
-        getUsers();
-    }, 5000)
 
       const Collapsible = () => { 
         var coll = document.getElementsByClassName("collapsible");
