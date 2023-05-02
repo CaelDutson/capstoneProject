@@ -8,11 +8,11 @@ const pool = new Pool(dbURL);
 
 pool.connect();
 
-exports.getUsers = async (req, res) => {
+exports.getUsers = async (req, res) => { 
     pool.query('SELECT * from students', (err, results) => {
         if (err) throw err;
         for (let row of results.rows) {
-            console.log(JSON.stringify(row));
+            //console.log(JSON.stringify(row));
         } 
         res.status(200).json(results.rows);
     })
@@ -44,15 +44,11 @@ exports.getInfo = async (username) => {
 
 exports.editUsers = async (data) => { 
     console.log(data); 
-    if (data.id == null || data.id == undefined || data.password == undefined || data.password == ' '){ 
-        return 'Nothing was selected'
-    } 
-    else{
     let email =  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
     let phone = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
     let name = /^[a-zA-Z]+$/; 
-    await pool.query(`UPDATE students SET firstname='${data.firstName}', lastname='${data.lastName}', username='${data.userName}', email='${data.email}', address='${data.address}', telephone='${data.telephone}' WHERE id=${data.id}`);   
-    }
+    await pool.query(`UPDATE students SET firstname='${data.firstname}', lastname='${data.lastname}', username='${data.username}', email='${data.email}', address='${data.address}', telephone='${data.telephone}' WHERE id=${data.id}`);   
+    
 } 
 
 exports.deleteUser = async (data) => { 
@@ -71,19 +67,6 @@ exports.getInfo = async (username) => {
     const results = await pool.query(`SELECT * FROM students WHERE firstname ILIKE $1 OR lastname ILIKE $1 OR username ILIKE $1 OR email ILIKE $1`, [`${username.userName}%`]); 
     console.log(results.rows); 
     return results.rows;
-} 
-
-exports.editUsers = async (data) => { 
-    console.log(data); 
-    if (data.id == null || data.id == undefined ){ 
-        return 'Nothing was selected'
-    } 
-    else{
-    let email =  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
-    let phone = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
-    let name = /^[a-zA-Z]+$/; 
-    await pool.query(`UPDATE students SET firstname='${data.firstName}', lastname='${data.lastName}', username='${data.userName}', email='${data.email}', address='${data.address}', telephone='${data.telephone}' WHERE id=${data.id}`);   
-    }
 } 
 
 exports.deleteUser = async (data) => { 

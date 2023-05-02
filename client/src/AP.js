@@ -32,9 +32,9 @@ const AdminSignedIn = () => {
         telephone: "", 
         email: "",
         id: null,
-    }) 
+    }); 
     const handleInput = (e) => {
-        setInput({...input, [e.target.name]: e.target.value})
+        setInput({...input, [e.target.name]: e.target.value}); 
     }  
     //const handleInput2 = (e) => {
         //setEditInput(prevState => ({...prevState, [e.target.name]: e.target.value}));  
@@ -42,9 +42,16 @@ const AdminSignedIn = () => {
     //}   
     const handleInput2 = (e) => {
         const { name, value } = e.target;
-        setUserInputs(prevState => ({...prevState, [currentUserId]: {...prevState[currentUserId], [name]: value}})); 
-        console.log(editInput);
-      };
+        setUserInputs(prevState => ({
+          ...prevState,
+          [currentUserId]: {
+            ...prevState[currentUserId],
+            [name]: value === '' ? '' : value // set to empty string if value is empty
+          }
+        })); 
+    };
+      
+      
     const search = async (e) => { 
         setMessage2('...Loading')
         e.preventDefault()
@@ -68,11 +75,26 @@ const AdminSignedIn = () => {
             }
         })
     };  
+    
     const editUsers = async (e) => {
         e.preventDefault();
-        const updatedUserData = userInputs[currentUserId];
         const userToUpdate = users.find(user => user.id === currentUserId);
-        const updatedUser = {...userToUpdate, ...updatedUserData};
+        const updatedUserData = userInputs[currentUserId]; 
+        console.log(updatedUserData); 
+        console.log(userToUpdate);
+        
+        // Convert updated user data into the desired format
+        const updatedUser = {
+          firstname: updatedUserData.firstName || userToUpdate.firstname,
+          lastname: updatedUserData.lastName || userToUpdate.lastname,
+          username: updatedUserData.userName || userToUpdate.username,
+          password: updatedUserData.password || userToUpdate.password,
+          address: updatedUserData.address || userToUpdate.address,
+          telephone: updatedUserData.telephone || userToUpdate.telephone,
+          email: updatedUserData.email || userToUpdate.email,
+          id: userToUpdate.id
+        };
+      
         await Axios({
           method: "POST",
           headers: {
@@ -86,6 +108,10 @@ const AdminSignedIn = () => {
           setUserInputs(prevState => ({...prevState, [currentUserId]: res.data}));
         });
       };
+      
+      
+      
+      
     const deleteUser = async (e) => { 
         e.preventDefault();  
         const data = {'id': currentUserId}
@@ -121,7 +147,7 @@ const AdminSignedIn = () => {
           console.log(res.data);
           setUsers(res.data); 
         }); 
-      }  
+      }   
 
       const handleButtonClick = (e) => {
         Collapsible(); 
@@ -136,7 +162,7 @@ const AdminSignedIn = () => {
         setCurrentUserId(userId);
         setUserInputs(prevState => ({...prevState, [userId]: {...prevState[userId], id: userId}}));
         //handleInput2(e);
-      }; 
+      };
 
       const Collapsible = () => { 
         var coll = document.getElementsByClassName("collapsible");
