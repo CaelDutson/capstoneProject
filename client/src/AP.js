@@ -158,8 +158,9 @@ const AdminSignedIn = () => {
             <div className="adminContent"> 
                 <div className="searchUser">  
                     <form onSubmit={(e) => search(e)}> 
+                        <h6>*You can even search through first, last name, user name, or email</h6>
                         <input onChange={(e) => handleInput(e)} name="userName"></input> 
-                        <button value="submit">Submit</button> 
+                        <button value="submit">Submit</button>  
                         {userList ? <ul className="editUsersList">{userList.map((item)=><li key={item.id}><button className="collapsible" name="id" value={item.id} onClick={(e)=> {handleButtonClick(e)}}>{item.firstname} {item.lastname}</button>  
                             <div id="collapsibleContent" className="userList"> 
                             Username: <input id="username" onChange={(e) => handleInput2(e)} type='text' name="userName" value={userInputs[item.id]?.userName || item.username}></input>  

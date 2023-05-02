@@ -68,7 +68,7 @@ exports.deleteUser = async (data) => {
 
 exports.getInfo = async (username) => { 
     console.log(username)
-    const results = await pool.query(`SELECT * FROM students WHERE firstname LIKE $1`, [`${username.userName}%`]) 
+    const results = await pool.query(`SELECT * FROM students WHERE firstname ILIKE $1 OR lastname ILIKE $1 OR username ILIKE $1 OR email ILIKE $1`, [`${username.userName}%`]); 
     console.log(results.rows); 
     return results.rows;
 } 
