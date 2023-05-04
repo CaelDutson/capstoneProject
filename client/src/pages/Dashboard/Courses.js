@@ -4,7 +4,8 @@ import Axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 
-import List from "./List";
+import List from "./List"; 
+import Navbar from "../../NavBar";
 
 const Courses = () => {
     let [data, setData] = useState([])
@@ -25,8 +26,10 @@ const Courses = () => {
     }, []);
 
     return (
-        <div>
-            <List list={data} />
+        <div className="courseList">  
+            <div>
+                <List list={data} /> 
+            </div>
         </div>
     )
 }

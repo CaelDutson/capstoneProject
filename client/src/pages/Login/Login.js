@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 
 import useHandleInput from "../../hooks/useHandleInput.js";
-import useMessage from "../../hooks/useMessage.js";
+import useMessage from "../../hooks/useMessage.js"; 
+import Navbar from "../../NavBar.js";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -33,12 +34,15 @@ const Login = () => {
     };
 
     return (
-        <>
-            <h1>Welcome! Sign in to Continue</h1> 
-            <form onSubmit={(e) => register(e)}> 
-                <input type="text" onChange={(e) => handleInput(e)} name="username" placeholder="Username"/>
-                <input type="password" onChange={(e) => handleInput(e)} name="password" placeholder="Password"/> 
-                <input type="submit" value="Submit"/>
+        <> 
+            <Navbar />
+            <form className="register" onSubmit={(e) => register(e)}> 
+                <h2>Sign In</h2> 
+                <div className="contentRegister">
+                    <input type="text" onChange={(e) => handleInput(e)} name="username" placeholder="Username"/>
+                    <input type="password" onChange={(e) => handleInput(e)} name="password" placeholder="Password"/> 
+                    <input type="submit" value="Submit"/> 
+                </div>
             </form>
            {message}
         </>

@@ -8,11 +8,11 @@ const pool = new Pool(dbURL);
 
 pool.connect();
 
-exports.getUsers = async (req, res) => {
+exports.getUsers = async (req, res) => { 
     pool.query('SELECT * from students', (err, results) => {
         if (err) throw err;
         for (let row of results.rows) {
-            console.log(JSON.stringify(row));
+            //console.log(JSON.stringify(row));
         } 
         res.status(200).json(results.rows);
     })
@@ -44,20 +44,16 @@ exports.getInfo = async (username) => {
 
 exports.editUsers = async (data) => { 
     console.log(data); 
-    if (data.id == null || data.id == undefined ){ 
-        return 'Nothing was selected'
-    } 
-    else{
     let email =  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
     let phone = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
     let name = /^[a-zA-Z]+$/; 
-    await pool.query(`UPDATE students SET firstname='${data.firstName}', lastname='${data.lastName}', username='${data.userName}', email='${data.email}', address='${data.address}', telephone='${data.telephone}' WHERE id=${data.id}`);   
-    }
+    await pool.query(`UPDATE students SET firstname='${data.firstname}', lastname='${data.lastname}', username='${data.username}', email='${data.email}', address='${data.address}', telephone='${data.telephone}' WHERE id=${data.id}`);   
+    
 } 
 
 exports.deleteUser = async (data) => { 
     console.log('its working'); 
-    console.log(data) 
+    console.log(data);
     if(data.id == null || undefined){
         return 'Nothing was selected'
     } 
@@ -68,22 +64,9 @@ exports.deleteUser = async (data) => {
 
 exports.getInfo = async (username) => { 
     console.log(username)
-    const results = await pool.query(`SELECT * FROM students WHERE firstname LIKE $1`, [`${username.userName}%`]) 
+    const results = await pool.query(`SELECT * FROM students WHERE firstname ILIKE $1 OR lastname ILIKE $1 OR username ILIKE $1 OR email ILIKE $1`, [`${username.userName}%`]); 
     console.log(results.rows); 
     return results.rows;
-} 
-
-exports.editUsers = async (data) => { 
-    console.log(data); 
-    if (data.id == null || data.id == undefined ){ 
-        return 'Nothing was selected'
-    } 
-    else{
-    let email =  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
-    let phone = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
-    let name = /^[a-zA-Z]+$/; 
-    await pool.query(`UPDATE students SET firstname='${data.firstName}', lastname='${data.lastName}', username='${data.userName}', email='${data.email}', address='${data.address}', telephone='${data.telephone}' WHERE id=${data.id}`);   
-    }
 } 
 
 exports.deleteUser = async (data) => { 
@@ -106,8 +89,10 @@ exports.register = (data) => {
     let name = /^[a-zA-Z]+$/;
     if (email.test(data.body.email) && phone.test(data.body.telephone) && name.test(data.body.firstName) && name.test(data.body.lastName)) {
         pool.query(`insert into students (email, username, hash, firstname, lastname, telephone, address) values ('${data.body.email}', '${data.body.username}', '${data.body.password}', '${data.body.firstName}', '${data.body.lastName}', '${data.body.telephone}', '${data.body.address}')`, (err, results) => {  
-            if(err) throw err;
-            console.log(results)
+            if(err) { 
+                return console.error('Either email, telephone, first and last name is not valid or username and password already exist');
+            }
+            console.log(results);
         }) 
     } 
     else{ 

@@ -10,10 +10,8 @@ const List = ({ list }) => (
 )
 
 const ListItems = ({ items }) => (
-    <li>
-        {console.log(items)}
-        <div>{items.id}</div>
-        <div>{items.username }</div>
+    <li className="courseList">
+        <div><h4>{items.id} {items.username }</h4></div>
         <div>{items.description}</div>
         {items.description ? <CourseButton id={items.id} students={items.student_ids} /> : <></>}
     </li>
