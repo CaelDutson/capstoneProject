@@ -31,7 +31,7 @@ function isLogged(req, res, next) {
         req.headers.user = verifiedToken.user
         next()
     } catch (err) {
-        res.status(401)
+        res.status(401).send('Not Logged')
     }
 }
 
@@ -39,7 +39,7 @@ function isAdmin(req, res, next) {
     if(req.headers.user.isAdmin){ 
         next()
     } else { 
-        res.status(401);
+        res.status(401).send('Not Authorized');
     }
 }
 
@@ -89,7 +89,7 @@ app.post('/editUsers', async (req, res) => {
         console.log(data)
         res.status(200).json(data)
     } else{ 
-        res.status(401);
+        res.status(401).send('Invalid');
     }
 
 
@@ -162,7 +162,7 @@ app.post('/editUsers', async (req, res) => {
         console.log(data)
         res.status(200).json(data)
     } else{ 
-        res.status(401);
+        res.status(401).send('Invalid');
     }
     
 }) 
@@ -173,16 +173,19 @@ app.post('/deleteUser', async (req, res) => {
     res.status(200).json(data)
 })
 
-// app.post('/login', async (req, res)=> { 
-//     let user = await db.getUser(req.body);
+app.post('/classRegister', isLogged, db.classRegister)
 
-//     if (user === undefined) {
-//         res.status(401).json("Can't authenticate login credentials!")
-//     } else {
-//         const token = jwtOptions.generateToken(user);
-//         res.status(200).json(token)
-//     }
-// }) 
+app.post('/classUnregister', isLogged, db.classUnregister)
+
+app.post('/isRegistered', isLogged, (req, res) => {
+    let ids = req.body
+
+    if (ids.includes(parseInt(req.headers.user.id))) {
+        res.status(200).send('working')
+    } else {
+        res.status(401).send('Not working')
+    }
+})
 
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'))

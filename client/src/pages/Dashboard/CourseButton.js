@@ -1,21 +1,65 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import Axios from "axios";
 
 import Button from "../../components/ui/Button.js";
 
-const Register = (val) => (
-    <Button data={val}/>
-);
+const Register = async (id) => {
+    await Axios({ 
+        method: "POST",
+        headers: {
+            Authorization: 'bearer ' + sessionStorage.getItem("data"),
+            Class_id: id
+        },
+        withCredentials: true, 
+        url: '/classRegister', 
+    }).then((res) => {
+        console.log('success!')
+    }).catch((err) => {
+        console.log('fail')
+    })
+};
 
-const Unregister = (val) => (
-    <Button data={val}/>
-);
+const Unregister = async (id) => {
+    await Axios({ 
+        method: "POST",
+        headers: {
+            Authorization: 'bearer ' + sessionStorage.getItem("data"),
+            Class_id: id
+        },
+        withCredentials: true, 
+        url: '/classUnregister', 
+    }).then((res) => {
+        console.log('success!')
+    }).catch((err) => {
+        console.log('fail')
+    })
+};
+
+const isRegistered = async (student_ids) => {
+    return await Axios({ 
+        method: "POST",
+        headers: {
+            "Content-Type": 'application/json',
+            Authorization: 'bearer ' + sessionStorage.getItem("data"),
+        },
+        withCredentials: true, 
+        data: student_ids,
+        url: '/isRegistered' 
+    }).then((res) => {
+        return true
+    }).catch((err) => {
+        return false
+    })
+}
 
 const CourseButton = ({ id, students }) => {
     const [type, setType] = useState()
 
-    useEffect(() => {
-        if (students == null || students.length < 30) {
+    useEffect(async () => {
+        let state = await isRegistered(students)
+
+        if (students.length < 30 && !state) {
             setType('Register')
         } else {
             setType('Unregister')
@@ -24,18 +68,17 @@ const CourseButton = ({ id, students }) => {
 
     const HandleButton = () => {
         if (type == 'Register') {
-            // register function
+            Register(id)
             setType('Unregister')
         } else {
-            // unregister function
+            Unregister(id)
             setType('Register')
         }
     }
+
     const TypeButton = () => (
         <button key={id} onClick={HandleButton}>{type}</button>
     )
-
-    console.log(type)
 
     return (
         <>

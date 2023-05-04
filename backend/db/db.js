@@ -145,10 +145,52 @@ exports.getUser = async (data) => {
     return results.rows[0];
 }
 
-// Student class unregistering function
-exports.unregister = async(req, res) => {
 
+exports.classRegister = async (req, res) => {
+    pool.query(
+        `UPDATE courses
+         SET student_ids = ARRAY_APPEND(student_ids, $1)
+         WHERE id = $2`,
+         [req.headers.user.id, req.headers.class_id], (err, _) => {
+            if (err) {
+                res.status(400).send(err)
+            } else {
+                res.status(200).send('Success')
+            }
+         }
+    )
 }
+
+// Student class unregistering function
+exports.classUnregister = async (req, res) => {
+    pool.query(
+        `UPDATE courses
+         SET student_ids = array_remove(student_ids, $1)
+         WHERE id = $2`,
+         [req.headers.user.id, req.headers.class_id], (err, _) => {
+            if (err) { 
+                res.status(400).send(err)
+            } else {
+                res.status(200).send('Success')
+            }   
+        }
+    )
+}
+
+// exports.isRegistered = async (req, res) => {
+//     pool.query(
+//         `SELECT id, name FROM courses
+//         WHERE id = $1 and $2 = ANY(student_ids)`,
+//         [req.headers.class_id, req.headers.user.id], (err, result) => {
+//             if (err) {
+//                 console.log(err)
+//                 res.status(400) 
+//             } else {
+//                 res.status(200).json(result.rows)
+//             }
+//         }
+//     )
+// }
 
 // functions needed in the future are:
 // getUsersFromCourse
