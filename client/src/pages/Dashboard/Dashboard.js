@@ -17,8 +17,6 @@ const Dashboard = () => {
         }
     }
 
-    console.log('dsfa')
-
     return (
         <div> 
             <Navbar /> 
