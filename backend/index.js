@@ -97,7 +97,6 @@ app.post('/editUsers', async (req, res) => {
 
 app.get('/data', db.getData)
 
-
 app.post('/classes', async (req, res) => {  
     console.log(req.body)
     const data = await db.getClasses(req.body); 
@@ -186,6 +185,8 @@ app.post('/isRegistered', isLogged, (req, res) => {
         res.status(401).send('Not working')
     }
 })
+
+app.get('/getRegisteredCourses', isLogged, db.registeredClasses);
 
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'))

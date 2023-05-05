@@ -1,15 +1,12 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import Axios from "axios";
+import List from "./List";
 
-import { useState } from "react";
-import { useEffect } from "react";
-
-import List from "./List"; 
-import Navbar from "../../NavBar";
-
-const Courses = () => {
+const MyCourses = () => {
     let [data, setData] = useState([])
-
+    
+    
     useEffect(() => {
         Axios({ 
             method: "GET",
@@ -17,10 +14,11 @@ const Courses = () => {
                 Authorization: 'bearer ' + sessionStorage.getItem("data")
             },
             withCredentials: true, 
-            url: '/getCourses', 
-        }).then((res) => (
+            url: '/getRegisteredCourses', 
+        }).then((res) => {
+            console.log(res.data)
             setData(res.data)
-        )).catch((err) => {
+        }).catch((err) => {
             console.log(err)
         })
     }, []);
@@ -28,11 +26,11 @@ const Courses = () => {
     return (
         <div className="courseList">  
             <div>
-                <>ih</>
+                <>gyu</>
                 <List list={data} /> 
             </div>
         </div>
     )
 }
 
-export default Courses;
+export default MyCourses;
