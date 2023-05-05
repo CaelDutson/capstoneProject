@@ -2,8 +2,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Axios from "axios";
 
-import Button from "../../components/ui/Button.js";
-
 const Register = async (id) => {
     await Axios({ 
         method: "POST",
@@ -56,14 +54,18 @@ const isRegistered = async (student_ids) => {
 const CourseButton = ({ id, students }) => {
     const [type, setType] = useState()
 
-    useEffect(async () => {
-        let state = await isRegistered(students)
+    useEffect(() => {
+        const fetchData = async () => {
+            let state = await isRegistered(students)
 
-        if (students.length < 30 && !state) {
-            setType('Register')
-        } else {
-            setType('Unregister')
+            if (students.length < 30 && !state) {
+                setType('Register')
+            } else {
+                setType('Unregister')
+            }
         }
+        
+        fetchData()
     }, [])
 
     const HandleButton = () => {

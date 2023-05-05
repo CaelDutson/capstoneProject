@@ -162,6 +162,19 @@ exports.classUnregister = async (req, res) => {
     )
 }
 
+exports.registeredClasses = async (req, res) => {
+    pool.query(
+        `SELECT * FROM courses WHERE $1 = ANY(student_ids)`,
+        [req.headers.user.id], (err, result) => {
+            if (err) {
+                res.status(400).send(err)
+            } else {
+                res.status(200).send(result.rows)
+            }
+        }
+    )
+}
+
 // exports.isRegistered = async (req, res) => {
 //     pool.query(
 //         `SELECT id, name FROM courses
