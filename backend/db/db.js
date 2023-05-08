@@ -128,6 +128,14 @@ exports.getUser = async (data) => {
     );
 
     return results.rows[0];
+} 
+
+exports.createChat = async (data) => { 
+    const results = await pool.query(`INSERT INTO messages (sender_id, recipient_id) values ('${data.sender}', '${data.label}')`); 
+    if(err){ 
+        return(err)
+    }
+    console.log(results);
 }
 
 // Student class unregistering function

@@ -122,7 +122,7 @@ app.post('/login', async (req, res)=> {
     console.log(req.body)
     const data = await db.login(req.body);
 
-    if (data) {
+    if (data) { 
         const token = jwtOptions.generateToken(data);
         res.status(200).json(token); 
         //res.status(200).json(true)
@@ -171,6 +171,15 @@ app.post('/deleteUser', async (req, res) => {
     const data = await db.deleteUser(req.body);  
     console.log(data)
     res.status(200).json(data)
+}) 
+
+app.post('/createChat', async (req, res) => { 
+    console.log(req.body) 
+    if (req.body.label == null || req.body.label == ''){ 
+        console.log('You have to select a user')
+    } else{ 
+        const data = await db.createChat(req.body)
+    }
 })
 
 // app.post('/login', async (req, res)=> { 

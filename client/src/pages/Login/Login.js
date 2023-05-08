@@ -12,7 +12,8 @@ const Login = () => {
     const [input, handleInput] = useHandleInput();
 
     const register = async (e) => {
-        e.preventDefault()
+        e.preventDefault() 
+        console.log(input);
 
         await Axios({
           method: "POST",
@@ -23,6 +24,7 @@ const Login = () => {
         .then((res) => {
             console.log(res.data)
             sessionStorage.setItem("data", res.data);
+            sessionStorage.setItem("name", input.username)
             navigate('/dashboard')
             // After 2 days of fighting with the navbar
             // I gave up on react so just reload the page
