@@ -3,18 +3,26 @@ import { useState } from "react";
 
 import Courses from "./Courses.js";
 import Users from "./Users.js"; 
-import Navbar from "../../NavBar.js";
+import Navbar from "../../NavBar.js"; 
+import Messaging from "./Messaging.js"
 import MyCourses from "./MyCourses.js";
+
 
 const Dashboard = () => {
     const [page, setPage] = useState('Courses');
 
     const currentPage = () => {
         switch (page) {
-            case 'users':
+            case 'admin':
+
+                return <Users/> 
+            case 'messaging': 
+                return <Messaging />
+
                 return <Users/>
             case 'My Courses':
                 return <MyCourses/>;
+
             default:
                 return <Courses/>
         }
@@ -26,6 +34,7 @@ const Dashboard = () => {
             <Navbar /> 
             <div className="tabs">
                 <div className="tab-wrapper">
+                    <div className="tab" onClick={() => setPage('Admin')}>Admin</div> 
                     <div className="tab" onClick={() => setPage('Courses')}>Courses</div>
                     <div className="tab" onClick={() => setPage('My Courses')}>My Courses</div>
                     <div className="tab" onClick={() => setPage('users')}>Users</div> 
