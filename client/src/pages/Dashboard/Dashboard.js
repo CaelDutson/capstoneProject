@@ -24,10 +24,12 @@ const Dashboard = () => {
     return (
         <div> 
             <Navbar /> 
-            <div className="classStuff">
-                <div onClick={() => setPage('Courses')}>Courses</div>
-                <div onClick={() => setPage('My Courses')}>My Courses</div>
-                <div onClick={() => setPage('users')}>Users</div> 
+            <div className="tabs">
+                <div className="tab-wrapper">
+                    <div className="tab" onClick={() => setPage('Courses')}>Courses</div>
+                    <div className="tab" onClick={() => setPage('My Courses')}>My Courses</div>
+                    <div className="tab" onClick={() => setPage('users')}>Users</div> 
+                </div>
             </div>
             <div id="Content"> 
                 {currentPage()}

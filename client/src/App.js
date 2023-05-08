@@ -22,13 +22,21 @@ const App = () => (
                 <Route path='/' exact element={<Home/>}/>
                 <Route path='/login' element={<Login/>}/>   
                 <Route path='/signup' element={<Signup/>}/>
-                <Route path='/classwork' element={<Classwork/>}/> 
+                <Route path='/classwork' element={
+                    <PrivateRoute>
+                        <Classwork/>
+                    </PrivateRoute>
+                }/> 
                 <Route path='/admin' element={
                     <PrivateRoute>
                         <AdminSignedIn/>
                     </PrivateRoute>
                 }/>
-                <Route path='/dashboard' element={<Dashboard/>}/>
+                <Route path='/dashboard' element={
+                    <PrivateRoute>
+                        <Dashboard/>
+                    </PrivateRoute>
+                }/>
             </Routes>
         </content>
     </Router>

@@ -27,10 +27,19 @@ const Courses = () => {
 
     return (
         <div className="courseList">  
-            <div>
-                <>ih</>
-                <List list={data} /> 
-            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Students</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <List list={data}/> 
+                </tbody>
+            </table>
         </div>
     )
 }

@@ -1,0 +1,19 @@
+.tabs {
+    display: flex;
+    justify-content: center;
+    
+    .tab-wrapper {
+        display: flex;
+        border-bottom: 2px solid #d1d5db;
+    }
+
+    .tab {
+        padding: 10px;
+        cursor: pointer;
+    }
+}
+
+
+
+
+
