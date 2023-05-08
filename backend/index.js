@@ -48,7 +48,7 @@ function isAdmin(req, res, next) {
 //     res.redirect('/')
 // })
 
-app.get('/getUsers', isLogged, isAdmin, db.getUsers);
+app.get('/getUsers', isLogged, db.getUsers);
 
 app.get('/getCourses', db.getCourses);
 
@@ -172,14 +172,40 @@ app.post('/deleteUser', async (req, res) => {
     res.status(200).json(data)
 }) 
 
-app.post('/createChat', async (req, res) => { 
-    console.log(req.body) 
-    if (req.body.label == null || req.body.label == ''){ 
-        console.log('You have to select a user')
-    } else{ 
-        const data = await db.createChat(req.body)
+app.post('/createChat', async (req, res) => {
+    if (req.body.label == null || req.body.label === '') {
+      console.log('You have to select a user');
+    } else {
+      const chatData = await db.createChat(req.body);
+      const messageData = await db.createMessage({
+        chatId: chatData.chatId,
+        senderId: req.body.sender,
+        content: 'Start of conversation',
+      });
+      console.log(messageData);
     }
-})
+});
+   
+
+app.post('/getChat', async (req, res) => { 
+    const data = await db.getChat(req.body); 
+    res.status(200).json(data)
+}); 
+
+app.post('/getMessages', async (req, res) => {
+    const { chatId } = req.body;
+    const messages = await db.getMessages(chatId);
+    res.status(200).json(messages);
+}); 
+
+app.post('/sendMessage', async (req, res) => {
+    const { chatId, sender, recipient, content } = req.body;
+    const messageData = await db.sendMessage(chatId, sender, recipient, content);
+    res.status(200).json(messageData);
+  });
+  
+  
+  
 
 app.post('/classRegister', isLogged, db.classRegister)
 

@@ -37,7 +37,6 @@ const Dashboard = () => {
                 <div onClick={() => setPage('messaging')}>Messages</div>  
                 <div onClick={() => setPage('Courses')}>Courses</div>
                 <div onClick={() => setPage('My Courses')}>My Courses</div>
-
             </div>
             <div id="Content"> 
                 {currentPage()}

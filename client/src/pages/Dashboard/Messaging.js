@@ -6,9 +6,6 @@ const Messaging = () => {
   return ( 
     <div className="messagingContent"> 
       <Chat /> 
-      <div className="sendingMessages"> 
-        Sending messages
-      </div>
     </div>
   );
 } 

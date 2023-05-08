@@ -7,7 +7,8 @@ export default function Navbar() {
     const [status, setStatus] = IsLogged()
 
     const usage = () => {
-        sessionStorage.removeItem('data')
+        sessionStorage.removeItem('data') 
+        sessionStorage.removeItem('name');
         setStatus(false)
     }
     
