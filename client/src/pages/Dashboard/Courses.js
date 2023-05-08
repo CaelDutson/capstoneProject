@@ -28,6 +28,7 @@ const Courses = () => {
     return (
         <div className="courseList">  
             <div>
+                <>ih</>
                 <List list={data} /> 
             </div>
         </div>
