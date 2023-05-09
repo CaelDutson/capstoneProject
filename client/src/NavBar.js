@@ -31,6 +31,7 @@ export default function Navbar() {
                     <a className='closeNav' onClick={closeNav}>&#9776;</a>
                     <Link to='/signup'>Signup</Link>
                     <Link to='/classwork'>Classwork</Link> 
+                    <Link to='/dashboard'>Dashboard</Link>
                     {status ? <Link to="/login" onClick={usage}>Signout</Link> : <Link to='/login'>Login</Link>}
                     <button>User tbd</button>
                 </div>  
