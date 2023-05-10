@@ -128,7 +128,42 @@ exports.getUser = async (data) => {
     );
 
     return results.rows[0];
-}
+} 
+
+exports.createChat = async (data) => { 
+    const results = await pool.query(`INSERT INTO messages (sender_id, recipient_id) values ('${data.sender}', '${data.label}')`); 
+    console.log(results);
+} 
+
+exports.getChat = async (data) => {
+    console.log(data);
+    const results = await pool.query(
+      'SELECT * FROM messages WHERE sender_id = $1 OR recipient_id = $1',
+      [data.names]
+    );
+    console.log(results.rows); 
+    return results.rows
+}; 
+
+exports.getMessages = async (chatId) => {
+    const results = await pool.query(
+      'SELECT * FROM messages WHERE chat_id = $1 ORDER BY timestamp ASC',
+      [chatId]
+    );
+    return results.rows;
+};
+  
+exports.sendMessage = async (chatId, senderId, recipientId, content) => {
+    const results = await pool.query(
+      `INSERT INTO messages (chat_id, sender_id, recipient_id, content) VALUES ($1, $2, $3, $4)`,
+      [chatId, senderId, recipientId, content]
+    );
+    return results;
+  };
+  
+   
+  
+  
 
 
 exports.classRegister = async (req, res) => {
