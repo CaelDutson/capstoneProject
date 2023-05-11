@@ -13,30 +13,41 @@ const Dashboard = () => {
 
     const currentPage = () => {
         switch (page) {
-            case 'admin':
-
+            case 'Admin':
                 return <Users/> 
-            case 'messaging': 
-                return <Messaging />
-
-                return <Users/>
+            case 'Messages': 
+                return <Messaging/>
             case 'My Courses':
                 return <MyCourses/>;
-
             default:
                 return <Courses/>
         }
     }
 
-    console.log("In " + page)
+    const activateTab = (e) => {
+        // Get the parent element then search
+        // which child element has the class name
+        // 'activated'
+        let tab = e.target
+        let tabParent = tab.parentElement;
+        let oldTab = tabParent.querySelector('.activated');
+        
+        oldTab.classList.remove('activated')
+        tab.classList.add('activated')
+
+        setPage(tab.innerText)
+    } 
+
     return (
         <div> 
             <Navbar /> 
-            <div className="classStuff">
-                <div onClick={() => setPage('Admin')}>Admin</div>  
-                <div onClick={() => setPage('messaging')}>Messages</div>  
-                <div onClick={() => setPage('Courses')}>Courses</div>
-                <div onClick={() => setPage('My Courses')}>My Courses</div>
+            <div className="tabs">
+                <div className="tab-wrapper">
+                    <div className="tab activated" onClick={(e) => activateTab(e)}>Courses</div>
+                    <div className="tab" onClick={(e) => activateTab(e)}>My Courses</div>
+                    <div className="tab" onClick={(e) => activateTab(e)}>Admin</div>  
+                    <div className="tab" onClick={(e) => activateTab(e)}>Messages</div>
+                </div>
             </div>
             <div id="Content"> 
                 {currentPage()}
