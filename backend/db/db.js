@@ -128,37 +128,69 @@ exports.getUser = async (data) => {
     );
 
     return results.rows[0];
-} 
+}  
 
 exports.createChat = async (data) => { 
-    const results = await pool.query(`INSERT INTO messages (sender_id, recipient_id) values ('${data.sender}', '${data.label}')`); 
-    console.log(results);
-} 
-
-exports.getChat = async (data) => {
-    console.log(data);
-    const results = await pool.query(
-      'SELECT * FROM messages WHERE sender_id = $1 OR recipient_id = $1',
-      [data.names]
-    );
-    console.log(results.rows); 
-    return results.rows
-}; 
-
-exports.getMessages = async (chatId) => {
-    const results = await pool.query(
-      'SELECT * FROM messages WHERE chat_id = $1 ORDER BY timestamp ASC',
-      [chatId]
-    );
-    return results.rows;
-};
+    console.log(data.label[0].label)
+    try {
+      const results = await pool.query(
+        `INSERT INTO chats (sender_id, recipient_id) VALUES ($1, $2) RETURNING id`,
+        [data.sender, data.label[0].label]
+      );
+      const chatId = results.rows[0].id; // Retrieve the 'id' field from the returned row
+      return chatId;
+    } catch (error) {
+      throw new Error('Failed to create chat');
+    }
+  };
   
-exports.sendMessage = async (chatId, senderId, recipientId, content) => {
-    const results = await pool.query(
-      `INSERT INTO messages (chat_id, sender_id, recipient_id, content) VALUES ($1, $2, $3, $4)`,
-      [chatId, senderId, recipientId, content]
-    );
-    return results;
+  exports.deleteChat = async (data) => {
+    console.log(data);
+    const query = 'DELETE FROM chats WHERE sender_id = $1 AND recipient_id = $2';
+    const values = [data.sender_id, data.recipient_id];
+    const results = await pool.query(query, values);
+    console.log(`Deleted rows with sender_id = ${data.sender_id} and recipient_id = ${data.recipient_id}`);
+  };
+  
+  
+  exports.getChat = async (data) => { 
+    console.log(data);
+    try {
+      const results = await pool.query(
+        `SELECT * FROM chats WHERE (sender_id = $1 OR recipient_id = $1)`,
+        [data.name]
+      ); 
+      return results.rows;
+    } catch (error) {
+      throw new Error('Failed to get chats');
+    }
+  }; 
+
+  exports.getMessages = async (data) => { 
+    console.log(data)
+    try {
+        const results = await pool.query(
+            `SELECT sender_id, timestamp, content FROM messages WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1) ORDER BY timestamp ASC`,
+            [data.sender, data.recipient]
+        );           
+          
+      return results.rows;
+    } catch (error) {
+      throw new Error('Failed to get messages');
+    }
+  };
+  
+  exports.sendMessage = async (chatId, senderId, recipientId, content) => { 
+    console.log(recipientId);
+    try {
+      const results = await pool.query(
+        `INSERT INTO messages (chat_id, sender_id, recipient_id, content) VALUES ($1, $2, $3, $4) RETURNING *`,
+        [chatId, senderId, recipientId, content]
+      );
+      return results.rows;
+    } catch (error) {
+      throw new Error('Failed to send message');
+    }
   };
   
    

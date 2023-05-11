@@ -173,36 +173,57 @@ app.post('/deleteUser', async (req, res) => {
 }) 
 
 app.post('/createChat', async (req, res) => {
-    if (req.body.label == null || req.body.label === '') {
-      console.log('You have to select a user');
-    } else {
-      const chatData = await db.createChat(req.body);
-      const messageData = await db.createMessage({
-        chatId: chatData.chatId,
-        senderId: req.body.sender,
-        content: 'Start of conversation',
-      });
-      console.log(messageData);
+    try {
+      if (req.body.label == null || req.body.label === '') {
+        res.status(400).json({ message: 'You have to select a user' });
+      } else {
+        const chatId = await db.createChat(req.body);
+        res.status(200).json({ id: chatId });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Internal server error' });
     }
-});
-   
+  }); 
 
-app.post('/getChat', async (req, res) => { 
-    const data = await db.getChat(req.body); 
-    res.status(200).json(data)
-}); 
-
-app.post('/getMessages', async (req, res) => {
-    const { chatId } = req.body;
-    const messages = await db.getMessages(chatId);
-    res.status(200).json(messages);
-}); 
-
-app.post('/sendMessage', async (req, res) => {
-    const { chatId, sender, recipient, content } = req.body;
-    const messageData = await db.sendMessage(chatId, sender, recipient, content);
-    res.status(200).json(messageData);
+  app.post('/deleteChat', async (req, res) => { 
+    const results = await db.deleteChat(req.body);
+  })
+  
+  app.post('/getChat', async (req, res) => { 
+    console.log(req.body)
+    const userId = req.body;
+    try {
+      const chats = await db.getChat(userId);
+      res.status(200).json(chats);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
   });
+  
+  app.post('/getMessages', async (req, res) => {
+    const  chatId  = req.body;
+    try {
+      const messages = await db.getMessages(chatId);
+      res.status(200).json(messages);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+  
+  app.post('/sendMessage', async (req, res) => {
+    const { chatId, sender, recipient, content } = req.body;
+    try {
+      const messageData = await db.sendMessage(chatId, sender, recipient, content);
+      res.status(200).json(messageData);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+  
   
   
   

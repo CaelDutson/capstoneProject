@@ -1,197 +1,256 @@
-import React, { useEffect } from "react"; 
-import { useState } from "react";  
-import Select from 'react-select'; 
-import Axios from "axios"; 
-//import { LoadingIndicator, loadingIndicatorCSS } from "react-select/dist/declarations/src/components/indicators";
+import React, { useEffect, useState } from 'react';
+import Select from 'react-select';
+import Axios from 'axios';
 
+const Chat = () => {
+  const [selectedChat, setSelectedChat] = useState(null);
+  const [messageContent, setMessageContent] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [chats, setChats] = useState([]);
+  const [createdChat, setCreatedChat] = useState({
+    sender: sessionStorage.getItem('name'),
+    label: '',
+    id: '',
+    deleteChat: null,
+  });
+  
+  const [users, setUsers] = useState([]);
 
-const Chat = () => {  
-    const [selectedChat, setSelectedChat] = useState(null);
-    const [messageContent, setMessageContent] = useState('');
-    const [messages, setMessages] = useState(null);
-    const [chats, setChats] = useState(null);
-    const [createdChat, setCreatedChat] = useState({  
-        sender: sessionStorage.getItem('name'),
-        label: '', 
-        id: ''
-    });
-    const [users, setUsers] = useState(null);
+  useEffect(() => {
+    getUsers();
+    getChat();
+  }, []);
 
-
-    const getUsers = () => { 
-        Axios({ 
-          method: "GET",
-          headers: {
-            Authorization: 'bearer ' + sessionStorage.getItem("data") || "invalid"
-          },
-          withCredentials: true, 
-          url: '/getUsers', 
-        }).then((res) => {
-          console.log(res.data);
-          const transformedUsers = res.data.map(user => ({
-            label: `${user.username}`,
-            id: user.id, 
-            name : 'label'
+  const getUsers = () => {
+    Axios.get('/getUsers', {
+      headers: {
+        Authorization: 'bearer ' + sessionStorage.getItem('data') || 'invalid',       
+        },
+        withCredentials: true,
+      })
+        .then((res) => {
+          const transformedUsers = res.data.map((user) => ({
+            value: user.id,
+            label: user.username,
           }));
-          setUsers(transformedUsers); 
-        }); 
-    }  
-    useEffect(() => { 
-        getUsers();
-    }, 1); 
-
-    const createChat = (e) => { 
-        e.preventDefault(); 
-        console.log(createdChat)
-        Axios({ 
-            method: "POST",
-            headers: {
-              Authorization: 'bearer ' + sessionStorage.getItem("data") || "invalid"
-            },
-            withCredentials: true, 
-            url: '/createChat',  
-            data: createdChat
-          }).then((res)=> { 
-            console.log(res.data)
-          })
-    } 
-
-    const getChat = (e) => {
-        const name = sessionStorage.getItem('name');
-        const chatName = {
-          names: name,
-        };
-        Axios({
-          method: 'POST',
-          headers: {
-            Authorization: 'bearer ' + sessionStorage.getItem('data') || 'invalid',
-          },
-          withCredentials: true,
-          url: '/getChat',
-          data: chatName,
-        }).then((res) => {
-          console.log(res.data);
-          setChats(res.data);
-          
-        });
-      };
-      
-      const getMessages = (chatId) => {
-        Axios({
-          method: 'POST',
-          headers: {
-            Authorization: 'bearer ' + sessionStorage.getItem('data') || 'invalid',
-          },
-          withCredentials: true,
-          url: '/getMessages',
-          data: { chatId },
-        }).then((res) => {
-          console.log(res.data);
-          setMessages(res.data);
-        });
-      };
-      
-      
-      useEffect(() => {
-        getChat();
-      }, []);  
-
-      useEffect(() => {
-        getMessages();
-      }, []); 
-      
-      useEffect(() => {
-        console.log(chats);
-      }, [chats]); 
-       
-
-
-    const sendMessage = () => {
-        const messageData = {
-            chatId: selectedChat.id,
-            sender: sessionStorage.getItem('name'),
-            recipient: selectedChat.recipient_id,
-            content: messageContent,
-          };
-      
-        Axios({
-          method: 'POST',
-          headers: {
-            Authorization: 'bearer ' + sessionStorage.getItem('data') || 'invalid',
-          },
-          withCredentials: true,
-          url: '/sendMessage',
-          data: messageData,
+          setUsers(transformedUsers);
         })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+  
+    const createChat = (e) => {
+        e.preventDefault();
+        if (createdChat.label === '') {
+          console.log('You have to select a user');
+          return;
+        }
+      
+        if (createdChat.deleteChat) {
+          deleteChat(createdChat.deleteChat, () => {
+            createNewChat();
+          });
+        } else {
+          createNewChat();
+        }
+      };
+      
+      const createNewChat = () => {
+        const existingChat = chats.find(
+          (chat) =>
+            (sessionStorage.getItem('name') === chat.recipient_id &&
+              createdChat.label === chat.sender_id) ||
+            (sessionStorage.getItem('name') === chat.sender_id &&
+              createdChat.label === chat.recipient_id)
+        );
+      
+        if (existingChat) {
+          setSelectedChat(existingChat);
+          getMessages(existingChat.id); // Fetch messages for the existing chat
+          return;
+        }
+      
+        Axios.post('/createChat', createdChat)
           .then((res) => {
-            console.log(res.data);
-            // Reset the message content after sending the message
-            setMessageContent('');
-            // Update the messages for the selected chat
-            getMessages(selectedChat.id);
+            setSelectedChat(res.data);
+            getMessages(res.data); // Fetch messages for the newly created chat
           })
           .catch((error) => {
             console.log(error);
           });
       }; 
 
+      const deleteChat = (chat, callback) => { 
+        console.log(chat)
+        Axios.post('/deleteChat', chat)
+          .then((res) => {
+            if (res.data.success) {
+              callback(); // Call the callback function after successful deletion
+            } else {
+              console.error(res.data.error);
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      };
       
       
-  return (
-    <div className="chats">
-      <div> 
-      <Select 
+  
+    const getChat = async() => {
+      const userId = sessionStorage.getItem('name'); 
+      const data = { 
+        name: userId
+      }
+      await Axios({
+            method: "POST",
+            headers: {
+              Authorization: 'bearer ' + sessionStorage.getItem("data") || "invalid"
+            },
+            withCredentials: true, 
+            url: '/getChat', 
+            data: data
+        }).then((res) => { 
+            console.log(res.data);
+            setChats(res.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+    };
+  
+    const getMessages =  async (chat) => {  
+        console.log(chat)
+        const data = { 
+            sender: chat.sender_id,
+            recipient: chat.recipient_id,
+        } 
+        console.log(data)
+        await Axios({
+            method: "POST",
+            headers: {
+              Authorization: 'bearer ' + sessionStorage.getItem("data") || "invalid"
+            },
+            withCredentials: true, 
+            url: '/getMessages', 
+            data: data
+        }).then((res) => { 
+            console.log(res.data)
+            setMessages(res.data); 
+            console.log(messages)
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
+      
+      
+  
+      const sendMessage = () => { 
+        let recipientId; 
+        console.log(selectedChat)
+        
+        if(selectedChat.recipient_id == sessionStorage.getItem('name')){ 
+            recipientId = selectedChat.sender_id;
+        } else{ 
+            recipientId = selectedChat.recipient_id
+        }
+        
+        const messageData = {
+          chatId: selectedChat?.id || createdChat.id,
+          sender: sessionStorage.getItem('name'),
+          recipient: recipientId,
+          content: messageContent,
+        };
+        
+        Axios.post('/sendMessage', messageData)
+          .then((res) => {
+            setMessageContent('');
+            if (selectedChat) {
+              getMessages(selectedChat);
+            } else {
+              getMessages(createdChat);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
+      
+      
+      
+      
+  
+    return (
+      <div className="chats">
+        <div>
+          <Select
             options={users}
             isMulti
-            onChange={(e) => e.map(item => {setCreatedChat({...createdChat, [item.name]: item.label})})}
-        /> 
-        <button onClick={createChat}>+</button>
-      </div> 
-      <div>
-  {chats && chats.length > 0 ? (
-    <ul className="chats">
-      {chats.map((item) => (
-        <button key={item.id} onClick={() => setSelectedChat(item)}>
-          {sessionStorage.getItem('name') === item.recipient_id
-            ? item.sender_id
-            : item.recipient_id}
-        </button>
-      ))}
-    </ul>
-  ) : null}
-</div>
+            onChange={(selectedOptions) =>
+              setCreatedChat({ ...createdChat, label: selectedOptions })
+            }
+          />
+          <button onClick={createChat}>+</button>
+        </div>
+  
+        <div>
+        {chats.map((chat) => (
+  <li key={chat.id}>
+    <button
+      onClick={() => {
+        setSelectedChat(chat);
+        getMessages(chat);
+      }}
+    >
+      {chat.recipient_id === sessionStorage.getItem('name')
+        ? chat.sender_id
+        : chat.recipient_id}
+    </button>
+    <button
+      className="delete-chat-btn"
+      onClick={() => {
+        deleteChat(chat);
+      }}
+    >
+      Delete
+    </button>
+  </li>
+))}
 
-{selectedChat && (
-  <div>
-    <ul className="messages">
-      {/* Render messages here */}
-    </ul>
-    <input
-      type="text"
-      value={messageContent}
-      onChange={(e) => setMessageContent(e.target.value)}
-    />
-    <button onClick={sendMessage}>Send</button>
-  </div>
-)}
+        </div>
+  
+        {selectedChat && (
+          <div>
+                <ul className="messages">
+                    {messages.length > 0 ? (
+                        messages.map((message) => (
+                            <li key={message.id}>
+                            <p>{message.content}</p> 
+                            <p>-{message.sender_id}</p>
+                            <span>{message.timestamp}</span>
+                            </li>
+                        ))
+                    ) : (
+                        <li>No messages</li>
+                        )}
+                </ul>
 
-    <div> 
-    <div>
-  {messages && messages.length > 0 ? (
-    <ul className="messages">
-      {messages.map((message) => (
-        <li key={message.id}>
-          <p>{message.content}</p>
-          <span>{message.timestamp}</span>
-        </li>
-      ))}
-    </ul>
-  ) : null}
-</div>
-
-    </div>
+          <input
+            type="text"
+            value={messageContent}
+            onChange={(e) => setMessageContent(e.target.value)}
+          />
+          <button onClick={sendMessage}>Send</button>
+        </div>
+      )}
     </div>
   );
 };
 
 export default Chat;
+
+  
+
+
