@@ -45,7 +45,7 @@ const Dashboard = () => {
                 <div className="tab-wrapper">
                     <div className="tab activated" onClick={(e) => activateTab(e)}>Courses</div>
                     <div className="tab" onClick={(e) => activateTab(e)}>My Courses</div>
-                    <div className="tab" onClick={(e) => activateTab(e)>Admin</div>  
+                    <div className="tab" onClick={(e) => activateTab(e)}>Admin</div>  
                     <div className="tab" onClick={(e) => activateTab(e)}>Messages</div>
                 </div>
             </div>

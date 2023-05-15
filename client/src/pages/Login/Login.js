@@ -43,7 +43,7 @@ const Login = () => {
                 <div className="contentRegister">
                     <input type="text" onChange={(e) => handleInput(e)} name="username" placeholder="Username"/>
                     <input type="password" onChange={(e) => handleInput(e)} name="password" placeholder="Password"/> 
-                    <input type="submit" value="Submit"/> 
+                    <button type="submit">Submit</button> 
                 </div>
             </form>
            {message}

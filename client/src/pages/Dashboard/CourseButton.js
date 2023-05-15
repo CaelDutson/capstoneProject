@@ -79,7 +79,7 @@ const CourseButton = ({ id, students }) => {
     }
 
     const TypeButton = () => (
-        <button key={id} onClick={HandleButton}>{type}</button>
+        <button key={id} className={type} onClick={HandleButton}>{type}</button>
     )
 
     return (

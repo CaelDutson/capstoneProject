@@ -25,7 +25,7 @@ export default function Navbar() {
     }
     
     return ( 
-         
+        
             <div>
                 <div id="mySidenav" className='navbar'> 
                     <a className='closeNav' onClick={closeNav}>&#9776;</a>

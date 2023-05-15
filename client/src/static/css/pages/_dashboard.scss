@@ -1,6 +1,15 @@
+.courseList {
+    display: flex;
+    justify-content: center;
+}
+
+// Styling the tabs
+
 .tabs {
     display: flex;
     justify-content: center;
+    font-size: 1.1em;
+    margin-bottom: 40px;
     
     .tab-wrapper {
         display: flex;
@@ -19,7 +28,45 @@
     }
 }
 
+// Styling the display tables
 
+table {
+    background-color: #111;
+    border-radius: 8px;
+    border-collapse: collapse;
+    font-size: 1.05em;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    height: 200px;
+    overflow-y: scroll;
 
+    thead tr {
+        th {
+            padding: 15px;
+            color: white;
+        }
+    }
 
+    tbody {
+        background-color: white;
 
+        tr:nth-child(even) {
+            background-color: #ececec;
+        }
+
+        tr td {
+            padding: 15px;
+
+            button {
+                color: white
+            }
+
+            .Register {
+                background-color: #32CD32;
+            }
+
+            .Unregister {
+                background-color: #CC3333;
+            }
+        }
+    }
+}

@@ -34,6 +34,7 @@ const Courses = () => {
                         <th>Description</th>
                         <th>Date</th>
                         <th>Students</th>
+                        <th>Cost</th>
                     </tr>
                 </thead>
                 <tbody>

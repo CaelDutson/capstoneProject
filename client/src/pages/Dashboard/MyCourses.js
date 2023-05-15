@@ -25,10 +25,20 @@ const MyCourses = () => {
 
     return (
         <div className="courseList">  
-            <div>
-                <>gyu</>
-                <List list={data} /> 
-            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Students</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <List list={data}/> 
+                </tbody>
+            </table>
         </div>
     )
 }

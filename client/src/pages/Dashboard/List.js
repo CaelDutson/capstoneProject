@@ -15,7 +15,8 @@ const ListItems = ({ items }) => (
         <td>{items.description}</td>
         <td>{items.start_date.slice(0,10)} - {items.end_date.slice(0,10)}</td>
         <td>{items.student_ids.length}/{items.max_size}</td>
-        {items.description ? <CourseButton id={items.id} students={items.student_ids} /> : <></>}
+        <td>${items.cost}</td>
+        <td>{items.description ? <CourseButton id={items.id} students={items.student_ids} /> : <></>}</td>
     </tr>
 )
 
